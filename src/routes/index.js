@@ -6,6 +6,7 @@ const restaurantController = require('../controllers/restaurantController');
 const galleryController = require('../controllers/galleryController');
 const contactController = require('../controllers/contactController');
 const sitemapController = require('../controllers/sitemapController');
+const appointmentController = require('../controllers/appointmentController');
 
 // Home page
 router.get('/', homeController.index);
@@ -28,6 +29,9 @@ router.post('/contact', contactController.submit);
 // Booking
 router.get('/rezervare', homeController.booking);
 router.post('/rezervare', homeController.submitBooking);
+
+// Appointments / Programari
+router.get('/programari', appointmentController.showBookingForm);
 
 // Health check endpoint for Docker
 router.get('/health', (req, res) => {

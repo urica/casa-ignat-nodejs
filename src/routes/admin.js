@@ -84,4 +84,11 @@ router.post('/testimonials/:id/delete', authMiddleware.requirePermission('testim
 router.get('/settings', authMiddleware.requirePermission('settings'), adminController.settings);
 router.post('/settings', authMiddleware.requirePermission('settings'), csrfMiddleware.verifyToken, adminController.updateSettings);
 
+// Appointments management
+router.get('/programari', authMiddleware.requirePermission('appointments'), adminController.listAppointments);
+router.get('/programari/calendar', authMiddleware.requirePermission('appointments'), adminController.appointmentsCalendar);
+router.get('/programari/rapoarte', authMiddleware.requirePermission('appointments'), adminController.appointmentsReports);
+router.get('/programari/:id', authMiddleware.requirePermission('appointments'), adminController.viewAppointment);
+router.post('/programari/:id/update', authMiddleware.requirePermission('appointments'), csrfMiddleware.verifyToken, adminController.updateAppointment);
+
 module.exports = router;

@@ -2,11 +2,15 @@ require('dotenv').config();
 const app = require('./app');
 const connectDB = require('../config/database');
 const config = require('../config/app');
+const { initializeScheduler } = require('./services/appointmentScheduler');
 
 const PORT = config.app.port;
 
 // Connect to database
 connectDB();
+
+// Initialize appointment scheduler
+initializeScheduler();
 
 // Start server
 const server = app.listen(PORT, () => {
@@ -20,6 +24,7 @@ const server = app.listen(PORT, () => {
 ║  URL:         ${config.app.url.padEnd(45)}║
 ║                                                           ║
 ║  Server is running and ready to accept connections!      ║
+║  Appointment scheduler: Active                            ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
   `);
