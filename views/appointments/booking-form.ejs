@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <meta name="description" content="<%= description %>">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Flatpickr for date/time picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .booking-wrapper {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .booking-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .booking-header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .booking-header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 30px;
+      background: #f8f9fa;
+    }
+
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: -50%;
+      width: 100%;
+      height: 3px;
+      background: #e0e0e0;
+      z-index: 0;
+    }
+
+    .progress-step:first-child::before {
+      display: none;
+    }
+
+    .progress-step.active::before {
+      background: #667eea;
+    }
+
+    .progress-step .step-number {
+      width: 40px;
+      height: 40px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #666;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 10px;
+    }
+
+    .progress-step.active .step-number {
+      background: #667eea;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .progress-step.completed .step-number {
+      background: #48bb78;
+      color: white;
+    }
+
+    .progress-step .step-label {
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .progress-step.active .step-label {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .form-content {
+      padding: 40px;
+    }
+
+    .step-content {
+      display: none;
+    }
+
+    .step-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-title {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .step-description {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1rem;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .service-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .service-card:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .service-card.selected {
+      border-color: #667eea;
+      background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    }
+
+    .service-card.selected::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #667eea;
+      font-size: 1.2rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .calendar-container {
+      margin-bottom: 30px;
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .time-slot {
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .time-slot:hover:not(.disabled) {
+      border-color: #667eea;
+      background: #667eea10;
+    }
+
+    .time-slot.selected {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+
+    .time-slot.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group label .required {
+      color: #e53e3e;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .summary-box {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-weight: 500;
+      color: #666;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .terms-box {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 14px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #666;
+    }
+
+    .btn-secondary:hover {
+      background: #d0d0d0;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .alert {
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .booking-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .form-content {
+        padding: 20px;
+      }
+
+      .progress-bar {
+        padding: 20px 10px;
+      }
+
+      .progress-step .step-label {
+        font-size: 0.7rem;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .time-slots {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
+
+      .form-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="booking-wrapper">
+      <!-- Header -->
+      <div class="booking-header">
+        <h1><i class="fas fa-calendar-check"></i> Programare Online</h1>
+        <p>Rezervă o programare în doar câțiva pași simpli</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-step active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-label">Serviciu</div>
+        </div>
+        <div class="progress-step" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-label">Dată & Oră</div>
+        </div>
+        <div class="progress-step" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-label">Date Personale</div>
+        </div>
+        <div class="progress-step" data-step="4">
+          <div class="step-number">4</div>
+          <div class="step-label">Confirmare</div>
+        </div>
+      </div>
+
+      <!-- Form Content -->
+      <div class="form-content">
+        <div id="alertContainer"></div>
+
+        <form id="appointmentForm">
+          <!-- Step 1: Select Service -->
+          <div class="step-content active" data-step="1">
+            <h2 class="step-title">Selectează Serviciul</h2>
+            <p class="step-description">Alege serviciul pentru care dorești să te programezi</p>
+
+            <div class="service-grid">
+              <% services.forEach(service => { %>
+                <div class="service-card" data-service-id="<%= service._id %>" data-service-name="<%= service.name %>" data-duration="<%= service.duration %>" data-price="<%= service.price %>">
+                  <h3><%= service.name %></h3>
+                  <p><%= service.shortDescription %></p>
+                  <div class="service-meta">
+                    <span><i class="fas fa-clock"></i> <%= service.duration %> min</span>
+                    <% if (service.price) { %>
+                      <span><i class="fas fa-tag"></i> <%= service.price %> <%= service.currency %></span>
+                    <% } %>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+
+            <input type="hidden" id="selectedService" name="serviceId" required>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Anulează</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()" id="step1Next">
+                Continuă <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Select Date & Time -->
+          <div class="step-content" data-step="2">
+            <h2 class="step-title">Alege Data și Ora</h2>
+            <p class="step-description">Selectează data dorită și apoi un interval orar disponibil</p>
+
+            <div class="calendar-container">
+              <div class="form-group">
+                <label>Data Programării <span class="required">*</span></label>
+                <input type="text" id="appointmentDate" name="appointmentDate" class="flatpickr" placeholder="Selectează data" required readonly>
+              </div>
+
+              <div id="timeSlotsContainer" style="display: none;">
+                <label>Intervalul Orar <span class="required">*</span></label>
+                <div class="time-slots" id="timeSlots"></div>
+                <input type="hidden" id="selectedTime" name="appointmentTime" required>
+              </div>
+
+              <div class="loading" id="slotsLoading">
+                <div class="spinner"></div>
+                <p>Se încarcă intervalele disponibile...</p>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                <i class="fas fa-arrow-left"></i> Înapoi
+              </button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()" id="step2Next" disabled>
+                Continuă <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Personal Data -->
+          <div class="step-content" data-step="3">
+            <h2 class="step-title">Date Personale</h2>
+            <p class="step-description">Completează informațiile tale de contact</p>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nume Complet <span class="required">*</span></label>
+                <input type="text" name="name" id="clientName" placeholder="Ex: Ion Popescu" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email <span class="required">*</span></label>
+                <input type="email" name="email" id="clientEmail" placeholder="exemplu@email.com" required>
+              </div>
+              <div class="form-group">
+                <label>Telefon <span class="required">*</span></label>
+                <input type="tel" name="phone" id="clientPhone" placeholder="07XX XXX XXX" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Vârstă (opțional)</label>
+                <input type="number" name="age" id="clientAge" min="1" max="150" placeholder="Ex: 30">
+              </div>
+              <div class="form-group">
+                <label>Sex (opțional)</label>
+                <select name="gender" id="clientGender">
+                  <option value="">Selectează</option>
+                  <option value="masculin">Masculin</option>
+                  <option value="feminin">Feminin</option>
+                  <option value="altul">Altul</option>
+                  <option value="prefer_sa_nu_specific">Prefer să nu specific</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Descriere Problemă (opțional)</label>
+              <textarea name="problemDescription" id="problemDescription" rows="4" placeholder="Descrie motivul pentru care soliciti consultația..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Cum ai aflat de noi? (opțional)</label>
+              <select name="referralSource" id="referralSource">
+                <option value="">Selectează</option>
+                <option value="google">Google</option>
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="recomandare">Recomandare</option>
+                <option value="publicitate">Publicitate</option>
+                <option value="altul">Altul</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="referralOtherGroup" style="display: none;">
+              <label>Alte detalii</label>
+              <input type="text" name="referralSourceOther" id="referralSourceOther" placeholder="Specifică...">
+            </div>
+
+            <div class="form-group">
+              <label>Preferințe Reminder</label>
+              <div class="checkbox-group">
+                <input type="checkbox" name="reminderEmail" id="reminderEmail" checked>
+                <label for="reminderEmail">Doresc reminder prin email</label>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                <i class="fas fa-arrow-left"></i> Înapoi
+              </button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()" id="step3Next">
+                Continuă <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Confirmation -->
+          <div class="step-content" data-step="4">
+            <h2 class="step-title">Confirmare Programare</h2>
+            <p class="step-description">Verifică detaliile și confirmă programarea</p>
+
+            <div class="summary-box">
+              <h3 style="margin-bottom: 15px;"><i class="fas fa-clipboard-check"></i> Sumar Programare</h3>
+              <div class="summary-item">
+                <span class="summary-label">Serviciu:</span>
+                <span class="summary-value" id="summaryService">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Data:</span>
+                <span class="summary-value" id="summaryDate">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Ora:</span>
+                <span class="summary-value" id="summaryTime">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Durată:</span>
+                <span class="summary-value" id="summaryDuration">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Preț:</span>
+                <span class="summary-value" id="summaryPrice">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Nume:</span>
+                <span class="summary-value" id="summaryName">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Email:</span>
+                <span class="summary-value" id="summaryEmail">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Telefon:</span>
+                <span class="summary-value" id="summaryPhone">-</span>
+              </div>
+            </div>
+
+            <div class="terms-box">
+              <div class="checkbox-group">
+                <input type="checkbox" name="termsAccepted" id="termsAccepted" required>
+                <label for="termsAccepted">
+                  Accept <a href="/termeni-si-conditii" target="_blank">termenii și condițiile</a> <span class="required">*</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                <i class="fas fa-arrow-left"></i> Înapoi
+              </button>
+              <button type="submit" class="btn btn-primary" id="submitBtn">
+                <i class="fas fa-check-circle"></i> Confirmă Programarea
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ro.js"></script>
+
+  <script>
+    let currentStep = 1;
+    let selectedServiceData = {};
+    let flatpickrInstance;
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeServiceSelection();
+      initializeDatePicker();
+      initializeFormValidation();
+    });
+
+    // Service selection
+    function initializeServiceSelection() {
+      document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('click', function() {
+          // Remove previous selection
+          document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+
+          // Add selection
+          this.classList.add('selected');
+
+          // Store service data
+          selectedServiceData = {
+            id: this.dataset.serviceId,
+            name: this.dataset.serviceName,
+            duration: this.dataset.duration,
+            price: this.dataset.price
+          };
+
+          document.getElementById('selectedService').value = selectedServiceData.id;
+          document.getElementById('step1Next').disabled = false;
+        });
+      });
+    }
+
+    // Date picker initialization
+    function initializeDatePicker() {
+      flatpickrInstance = flatpickr('#appointmentDate', {
+        locale: 'ro',
+        minDate: 'today',
+        maxDate: new Date().fp_incr(90),
+        disable: [
+          function(date) {
+            // Disable weekends
+            return (date.getDay() === 0 || date.getDay() === 6);
+          }
+        ],
+        onChange: function(selectedDates, dateStr) {
+          if (selectedDates.length > 0) {
+            loadTimeSlots(dateStr);
+          }
+        }
+      });
+    }
+
+    // Load available time slots
+    async function loadTimeSlots(date) {
+      const serviceId = selectedServiceData.id;
+      if (!serviceId) return;
+
+      document.getElementById('slotsLoading').style.display = 'block';
+      document.getElementById('timeSlotsContainer').style.display = 'none';
+
+      try {
+        const response = await fetch(`/api/appointments/available-slots?date=${date}&serviceId=${serviceId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          renderTimeSlots(data.slots);
+        } else {
+          showAlert(data.message || 'Eroare la încărcarea sloturilor', 'error');
+        }
+      } catch (error) {
+        console.error('Error loading slots:', error);
+        showAlert('Eroare la încărcarea intervalelor orare', 'error');
+      } finally {
+        document.getElementById('slotsLoading').style.display = 'none';
+      }
+    }
+
+    // Render time slots
+    function renderTimeSlots(slots) {
+      const container = document.getElementById('timeSlots');
+      container.innerHTML = '';
+
+      if (slots.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666;">Nu există intervale disponibile pentru această dată.</p>';
+        document.getElementById('timeSlotsContainer').style.display = 'block';
+        return;
+      }
+
+      slots.forEach(slot => {
+        const slotEl = document.createElement('div');
+        slotEl.className = 'time-slot' + (slot.available ? '' : ' disabled');
+        slotEl.textContent = slot.time;
+
+        if (slot.available) {
+          slotEl.addEventListener('click', function() {
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            this.classList.add('selected');
+            document.getElementById('selectedTime').value = slot.time;
+            document.getElementById('step2Next').disabled = false;
+          });
+        }
+
+        container.appendChild(slotEl);
+      });
+
+      document.getElementById('timeSlotsContainer').style.display = 'block';
+    }
+
+    // Form validation
+    function initializeFormValidation() {
+      // Referral source change
+      document.getElementById('referralSource').addEventListener('change', function() {
+        const otherGroup = document.getElementById('referralOtherGroup');
+        otherGroup.style.display = this.value === 'altul' ? 'block' : 'none';
+      });
+    }
+
+    // Navigation functions
+    function nextStep() {
+      if (validateStep(currentStep)) {
+        if (currentStep === 3) {
+          updateSummary();
+        }
+
+        currentStep++;
+        updateSteps();
+      }
+    }
+
+    function prevStep() {
+      currentStep--;
+      updateSteps();
+    }
+
+    function updateSteps() {
+      // Update progress bar
+      document.querySelectorAll('.progress-step').forEach(step => {
+        const stepNum = parseInt(step.dataset.step);
+        step.classList.remove('active', 'completed');
+
+        if (stepNum === currentStep) {
+          step.classList.add('active');
+        } else if (stepNum < currentStep) {
+          step.classList.add('completed');
+        }
+      });
+
+      // Update content
+      document.querySelectorAll('.step-content').forEach(content => {
+        content.classList.remove('active');
+        if (parseInt(content.dataset.step) === currentStep) {
+          content.classList.add('active');
+        }
+      });
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Validate step
+    function validateStep(step) {
+      switch(step) {
+        case 1:
+          if (!document.getElementById('selectedService').value) {
+            showAlert('Te rugăm să selectezi un serviciu', 'error');
+            return false;
+          }
+          return true;
+
+        case 2:
+          if (!document.getElementById('appointmentDate').value) {
+            showAlert('Te rugăm să selectezi o dată', 'error');
+            return false;
+          }
+          if (!document.getElementById('selectedTime').value) {
+            showAlert('Te rugăm să selectezi o oră', 'error');
+            return false;
+          }
+          return true;
+
+        case 3:
+          const name = document.getElementById('clientName').value.trim();
+          const email = document.getElementById('clientEmail').value.trim();
+          const phone = document.getElementById('clientPhone').value.trim();
+
+          if (!name || !email || !phone) {
+            showAlert('Te rugăm să completezi toate câmpurile obligatorii', 'error');
+            return false;
+          }
+
+          // Basic email validation
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            showAlert('Te rugăm să introduci o adresă de email validă', 'error');
+            return false;
+          }
+
+          return true;
+
+        default:
+          return true;
+      }
+    }
+
+    // Update summary
+    function updateSummary() {
+      document.getElementById('summaryService').textContent = selectedServiceData.name;
+      document.getElementById('summaryDate').textContent = document.getElementById('appointmentDate').value;
+      document.getElementById('summaryTime').textContent = document.getElementById('selectedTime').value;
+      document.getElementById('summaryDuration').textContent = selectedServiceData.duration + ' minute';
+      document.getElementById('summaryPrice').textContent = selectedServiceData.price ? selectedServiceData.price + ' RON' : 'La cerere';
+      document.getElementById('summaryName').textContent = document.getElementById('clientName').value;
+      document.getElementById('summaryEmail').textContent = document.getElementById('clientEmail').value;
+      document.getElementById('summaryPhone').textContent = document.getElementById('clientPhone').value;
+    }
+
+    // Form submission
+    document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!document.getElementById('termsAccepted').checked) {
+        showAlert('Te rugăm să accepți termenii și condițiile', 'error');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      // Convert checkbox to boolean
+      data.reminderEmail = formData.has('reminderEmail');
+      data.termsAccepted = 'true';
+
+      try {
+        const response = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert('Programarea a fost creată cu succes! Veți primi un email de confirmare.', 'success');
+
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 3000);
+        } else {
+          showAlert(result.message || 'A apărut o eroare. Vă rugăm încercați din nou.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmă Programarea';
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        showAlert('A apărut o eroare la trimiterea formularului', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmă Programarea';
+      }
+    });
+
+    // Show alert
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+
+      alertContainer.innerHTML = `
+        <div class="alert ${alertClass}">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+          ${message}
+        </div>
+      `;
+
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        alertContainer.innerHTML = '';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

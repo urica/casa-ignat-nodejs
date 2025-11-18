@@ -1,0 +1,140 @@
+<%- include('../../layouts/admin-header', { title: title }) %>
+
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2><i class="fas fa-calendar-alt"></i> Programări</h2>
+    </div>
+    <div class="col-md-6 text-end">
+      <a href="/admin/programari/calendar" class="btn btn-primary">
+        <i class="fas fa-calendar"></i> Vezi Calendar
+      </a>
+      <a href="/admin/programari/rapoarte" class="btn btn-info">
+        <i class="fas fa-chart-bar"></i> Rapoarte
+      </a>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="GET" action="/admin/programari" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-select">
+            <option value="">Toate</option>
+            <option value="new" <%= filters.status === 'new' ? 'selected' : '' %>>Noi</option>
+            <option value="confirmed" <%= filters.status === 'confirmed' ? 'selected' : '' %>>Confirmate</option>
+            <option value="waiting" <%= filters.status === 'waiting' ? 'selected' : '' %>>În așteptare</option>
+            <option value="completed" <%= filters.status === 'completed' ? 'selected' : '' %>>Finalizate</option>
+            <option value="cancelled" <%= filters.status === 'cancelled' ? 'selected' : '' %>>Anulate</option>
+            <option value="no_show" <%= filters.status === 'no_show' ? 'selected' : '' %>>No-show</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Serviciu</label>
+          <select name="service" class="form-select">
+            <option value="">Toate</option>
+            <% services.forEach(service => { %>
+              <option value="<%= service._id %>" <%= filters.service === service._id ? 'selected' : '' %>>
+                <%= service.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">De la</label>
+          <input type="date" name="startDate" class="form-control" value="<%= filters.startDate || '' %>">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Până la</label>
+          <input type="date" name="endDate" class="form-control" value="<%= filters.endDate || '' %>">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary me-2">Filtrează</button>
+          <a href="/admin/programari" class="btn btn-secondary">Reset</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Appointments Table -->
+  <div class="card">
+    <div class="card-body">
+      <% if (appointments.length === 0) { %>
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle"></i> Nu există programări.
+        </div>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Data & Ora</th>
+                <th>Client</th>
+                <th>Serviciu</th>
+                <th>Status</th>
+                <th>Contact</th>
+                <th>Acțiuni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% appointments.forEach(appointment => { %>
+                <tr>
+                  <td>
+                    <strong><%= new Date(appointment.appointmentDate).toLocaleDateString('ro-RO') %></strong><br>
+                    <small class="text-muted"><%= appointment.appointmentTime %></small>
+                  </td>
+                  <td><%= appointment.clientInfo.name %></td>
+                  <td>
+                    <%= appointment.service.name %><br>
+                    <small class="text-muted"><%= appointment.duration %> min</small>
+                  </td>
+                  <td>
+                    <%
+                      let badgeClass = 'secondary';
+                      if (appointment.status === 'new') badgeClass = 'primary';
+                      if (appointment.status === 'confirmed') badgeClass = 'success';
+                      if (appointment.status === 'completed') badgeClass = 'info';
+                      if (appointment.status === 'cancelled') badgeClass = 'danger';
+                      if (appointment.status === 'no_show') badgeClass = 'warning';
+                    %>
+                    <span class="badge bg-<%= badgeClass %>"><%= appointment.status %></span>
+                  </td>
+                  <td>
+                    <small>
+                      <i class="fas fa-envelope"></i> <%= appointment.clientInfo.email %><br>
+                      <i class="fas fa-phone"></i> <%= appointment.clientInfo.phone %>
+                    </small>
+                  </td>
+                  <td>
+                    <a href="/admin/programari/<%= appointment._id %>" class="btn btn-sm btn-info">
+                      <i class="fas fa-eye"></i> Vezi
+                    </a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+          <nav>
+            <ul class="pagination justify-content-center">
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>&status=<%= filters.status || '' %>&service=<%= filters.service || '' %>">
+                    <%= i %>
+                  </a>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../../layouts/admin-footer') %>

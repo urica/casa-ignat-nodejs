@@ -128,3 +128,198 @@ exports.settings = async (req, res) => {
 exports.updateSettings = async (req, res) => {
   res.json({ success: true, message: 'To be implemented' });
 };
+
+// Appointments
+const Appointment = require('../models/Appointment');
+const Service = require('../models/Service');
+
+exports.listAppointments = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 20;
+    const skip = (page - 1) * limit;
+
+    const { status, service, startDate, endDate } = req.query;
+
+    const filter = {};
+    if (status) filter.status = status;
+    if (service) filter.service = service;
+    if (startDate || endDate) {
+      filter.appointmentDate = {};
+      if (startDate) filter.appointmentDate.$gte = new Date(startDate);
+      if (endDate) filter.appointmentDate.$lte = new Date(endDate);
+    }
+
+    const appointments = await Appointment.find(filter)
+      .populate('service', 'name category')
+      .sort({ appointmentDate: -1, appointmentTime: -1 })
+      .limit(limit)
+      .skip(skip);
+
+    const totalAppointments = await Appointment.countDocuments(filter);
+    const totalPages = Math.ceil(totalAppointments / limit);
+
+    const services = await Service.find({ bookable: true }).select('name');
+
+    res.render('admin/appointments/list', {
+      title: 'Programări - Admin',
+      appointments,
+      services,
+      currentPage: page,
+      totalPages,
+      filters: { status, service, startDate, endDate },
+    });
+  } catch (error) {
+    console.error('Error listing appointments:', error);
+    req.flash('error', 'Eroare la încărcarea programărilor');
+    res.redirect('/admin');
+  }
+};
+
+exports.appointmentsCalendar = async (req, res) => {
+  try {
+    const services = await Service.find({ bookable: true }).select('name category');
+
+    res.render('admin/appointments/calendar', {
+      title: 'Calendar Programări - Admin',
+      services,
+    });
+  } catch (error) {
+    console.error('Error loading calendar:', error);
+    req.flash('error', 'Eroare la încărcarea calendarului');
+    res.redirect('/admin/programari');
+  }
+};
+
+exports.appointmentsReports = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    const dateFilter = {};
+    if (startDate || endDate) {
+      dateFilter.createdAt = {};
+      if (startDate) dateFilter.createdAt.$gte = new Date(startDate);
+      if (endDate) dateFilter.createdAt.$lte = new Date(endDate);
+    }
+
+    // Get statistics
+    const totalAppointments = await Appointment.countDocuments(dateFilter);
+
+    const byStatus = await Appointment.aggregate([
+      { $match: dateFilter },
+      { $group: { _id: '$status', count: { $sum: 1 } } },
+    ]);
+
+    const byService = await Appointment.aggregate([
+      { $match: dateFilter },
+      {
+        $lookup: {
+          from: 'services',
+          localField: 'service',
+          foreignField: '_id',
+          as: 'serviceDetails',
+        },
+      },
+      { $unwind: '$serviceDetails' },
+      {
+        $group: {
+          _id: '$service',
+          serviceName: { $first: '$serviceDetails.name' },
+          count: { $sum: 1 },
+          revenue: { $sum: '$price' },
+        },
+      },
+      { $sort: { count: -1 } },
+    ]);
+
+    const noShowCount = await Appointment.countDocuments({
+      ...dateFilter,
+      status: 'no_show',
+    });
+
+    const convertedCount = await Appointment.countDocuments({
+      ...dateFilter,
+      status: { $in: ['confirmed', 'completed'] },
+    });
+
+    const revenueResult = await Appointment.aggregate([
+      { $match: { ...dateFilter, paymentStatus: 'paid' } },
+      { $group: { _id: null, total: { $sum: '$price' } } },
+    ]);
+
+    const statistics = {
+      totalAppointments,
+      byStatus,
+      byService,
+      noShowRate: totalAppointments > 0 ? ((noShowCount / totalAppointments) * 100).toFixed(2) : 0,
+      conversionRate: totalAppointments > 0 ? ((convertedCount / totalAppointments) * 100).toFixed(2) : 0,
+      totalRevenue: revenueResult.length > 0 ? revenueResult[0].total : 0,
+    };
+
+    res.render('admin/appointments/reports', {
+      title: 'Rapoarte Programări - Admin',
+      statistics,
+      filters: { startDate, endDate },
+    });
+  } catch (error) {
+    console.error('Error generating reports:', error);
+    req.flash('error', 'Eroare la generarea rapoartelor');
+    res.redirect('/admin/programari');
+  }
+};
+
+exports.viewAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id)
+      .populate('service')
+      .populate('statusHistory.changedBy', 'name email');
+
+    if (!appointment) {
+      req.flash('error', 'Programarea nu a fost găsită');
+      return res.redirect('/admin/programari');
+    }
+
+    res.render('admin/appointments/view', {
+      title: `Programare ${appointment.clientInfo.name} - Admin`,
+      appointment,
+    });
+  } catch (error) {
+    console.error('Error viewing appointment:', error);
+    req.flash('error', 'Eroare la încărcarea programării');
+    res.redirect('/admin/programari');
+  }
+};
+
+exports.updateAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+
+    if (!appointment) {
+      req.flash('error', 'Programarea nu a fost găsită');
+      return res.redirect('/admin/programari');
+    }
+
+    const { status, internalNotes, paymentStatus } = req.body;
+
+    if (status && status !== appointment.status) {
+      await appointment.changeStatus(status, req.session.user._id, 'Modificat din admin');
+    }
+
+    if (internalNotes !== undefined) {
+      appointment.internalNotes = internalNotes;
+    }
+
+    if (paymentStatus) {
+      appointment.paymentStatus = paymentStatus;
+    }
+
+    await appointment.save();
+
+    req.flash('success', 'Programarea a fost actualizată cu succes');
+    res.redirect(`/admin/programari/${appointment._id}`);
+  } catch (error) {
+    console.error('Error updating appointment:', error);
+    req.flash('error', 'Eroare la actualizarea programării');
+    res.redirect(`/admin/programari/${req.params.id}`);
+  }
+};
