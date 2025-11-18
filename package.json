@@ -14,7 +14,8 @@
     "docker:down": "docker-compose down",
     "docker:build": "docker build -t casa-ignat .",
     "migrate": "node migrations/migrate.js",
-    "seed": "node seeds/seed.js"
+    "seed": "node seeds/seed.js",
+    "security:audit": "node scripts/securityAudit.js"
   },
   "keywords": [
     "casa-ignat",
@@ -26,7 +27,9 @@
   "author": "Casa Ignat",
   "license": "MIT",
   "dependencies": {
+    "archiver": "^7.0.1",
     "bcryptjs": "^2.4.3",
+    "clamscan": "^2.4.0",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
@@ -41,6 +44,7 @@
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
@@ -49,6 +53,9 @@
     "qrcode": "^1.5.3",
     "sharp": "^0.33.1",
     "speakeasy": "^2.0.0",
+    "ua-parser-js": "^2.0.6",
+    "uuid": "^13.0.0",
+    "validator": "^13.15.23",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {

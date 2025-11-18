@@ -104,6 +104,55 @@ const userSchema = new mongoose.Schema({
       default: false,
     },
   },
+  // JWT refresh tokens (supports multiple devices)
+  refreshTokens: [{
+    token: {
+      type: String,
+      required: true,
+    },
+    deviceInfo: {
+      userAgent: String,
+      ip: String,
+      deviceId: String,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    expiresAt: {
+      type: Date,
+      required: true,
+    },
+  }],
+  // GDPR compliance
+  gdprConsent: {
+    accepted: {
+      type: Boolean,
+      default: false,
+    },
+    acceptedAt: {
+      type: Date,
+    },
+    privacyPolicyVersion: {
+      type: String,
+    },
+  },
+  dataProcessingConsent: {
+    analytics: { type: Boolean, default: false },
+    marketing: { type: Boolean, default: false },
+    thirdParty: { type: Boolean, default: false },
+  },
+  // Account deletion request (soft delete)
+  deletionRequested: {
+    type: Boolean,
+    default: false,
+  },
+  deletionRequestedAt: {
+    type: Date,
+  },
+  scheduledDeletionDate: {
+    type: Date,
+  },
 }, {
   timestamps: true,
 });
@@ -161,6 +210,76 @@ userSchema.methods.resetLoginAttempts = function() {
 userSchema.methods.hasPermission = function(module) {
   if (this.role === 'admin') return true;
   return this.permissions[module] === true;
+};
+
+// Add refresh token
+userSchema.methods.addRefreshToken = function(token, deviceInfo, expiresAt) {
+  // Clean up expired tokens
+  this.refreshTokens = this.refreshTokens.filter(
+    rt => rt.expiresAt > new Date()
+  );
+
+  // Limit to 5 devices
+  if (this.refreshTokens.length >= 5) {
+    this.refreshTokens.shift(); // Remove oldest
+  }
+
+  this.refreshTokens.push({
+    token,
+    deviceInfo,
+    expiresAt,
+  });
+
+  return this.save();
+};
+
+// Remove refresh token
+userSchema.methods.removeRefreshToken = function(token) {
+  this.refreshTokens = this.refreshTokens.filter(rt => rt.token !== token);
+  return this.save();
+};
+
+// Check if refresh token is valid
+userSchema.methods.hasValidRefreshToken = function(token) {
+  const refreshToken = this.refreshTokens.find(rt => rt.token === token);
+  if (!refreshToken) return false;
+  return refreshToken.expiresAt > new Date();
+};
+
+// Remove all refresh tokens (logout from all devices)
+userSchema.methods.removeAllRefreshTokens = function() {
+  this.refreshTokens = [];
+  return this.save();
+};
+
+// Validate password complexity
+userSchema.statics.validatePasswordComplexity = function(password) {
+  const errors = [];
+
+  if (password.length < 8) {
+    errors.push('Parola trebuie să aibă cel puțin 8 caractere');
+  }
+
+  if (!/[a-z]/.test(password)) {
+    errors.push('Parola trebuie să conțină cel puțin o literă mică');
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    errors.push('Parola trebuie să conțină cel puțin o literă mare');
+  }
+
+  if (!/[0-9]/.test(password)) {
+    errors.push('Parola trebuie să conțină cel puțin o cifră');
+  }
+
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    errors.push('Parola trebuie să conțină cel puțin un caracter special (!@#$%^&*(),.?":{}|<>)');
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
 };
 
 module.exports = mongoose.model('User', userSchema);

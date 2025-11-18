@@ -1,0 +1,35 @@
+<%# Google Tag Manager - Head Script %>
+<% if (analytics.gtmContainerId && hasAnalyticsConsent) { %>
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<%= analytics.gtmContainerId %>');
+</script>
+<!-- End Google Tag Manager -->
+<% } %>
+
+<%# Initialize Data Layer %>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  // Set consent mode defaults
+  window.dataLayer.push({
+    'consent': 'default',
+    'analytics_storage': '<%= hasAnalyticsConsent ? "granted" : "denied" %>',
+    'ad_storage': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+    'ad_user_data': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+    'ad_personalization': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+  });
+
+  <% if (user) { %>
+  // Set user data
+  window.dataLayer.push({
+    'user_id': '<%= user.id %>',
+    'user_role': '<%= user.role %>',
+    'user_authenticated': true,
+  });
+  <% } %>
+</script>

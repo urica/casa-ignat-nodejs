@@ -1,0 +1,191 @@
+<%- include('../partials/header') %>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h1 class="mb-4">Gestionare Consimțământ</h1>
+
+      <p class="lead">
+        Controlați cum sunt utilizate datele dumneavoastră personale și ce tipuri de cookie-uri
+        permiteți pe site-ul nostru.
+      </p>
+
+      <% if (currentConsent) { %>
+        <div class="alert alert-info">
+          <strong>Ultima actualizare:</strong> <%= currentConsent.lastUpdated.toLocaleDateString('ro-RO') %> |
+          <strong>Versiune politică:</strong> <%= currentConsent.privacyPolicyVersion %>
+        </div>
+      <% } %>
+
+      <form id="consentForm" action="/privacy/consent" method="POST" class="mt-4">
+        <!-- Necesare (Always On) -->
+        <div class="card mb-3">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Cookie-uri Strict Necesare</h5>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" checked disabled>
+              <label class="form-check-label text-white">
+                <strong>Întotdeauna Active</strong>
+              </label>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri sunt esențiale pentru funcționarea corectă a site-ului și nu pot
+              fi dezactivate. Ele includ cookie-uri de sesiune, CSRF protection și autentificare.
+            </p>
+            <small class="text-muted">
+              Exemple: Sesiune utilizator, protecție securitate, coș cumpărături
+            </small>
+          </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="card mb-3">
+          <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Cookie-uri de Analiză</h5>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="analytics"
+                id="analyticsSwitch"
+                value="true"
+                <%= currentConsent && currentConsent.consent.analytics ? 'checked' : '' %>
+              >
+            </div>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri ne ajută să înțelegem cum interacționați cu site-ul nostru prin
+              colectarea de informații anonime despre vizitatori și comportamentul acestora.
+            </p>
+            <small class="text-muted">
+              Exemple: Google Analytics (cu IP anonimizat), statistici de vizitare, heat maps
+            </small>
+          </div>
+        </div>
+
+        <!-- Marketing -->
+        <div class="card mb-3">
+          <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Cookie-uri de Marketing</h5>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="marketing"
+                id="marketingSwitch"
+                value="true"
+                <%= currentConsent && currentConsent.consent.marketing ? 'checked' : '' %>
+              >
+            </div>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri sunt folosite pentru a vă afișa reclame relevante și pentru a
+              măsura eficiența campaniilor noastre de marketing.
+            </p>
+            <small class="text-muted">
+              Exemple: Facebook Pixel, Google Ads, remarketing
+            </small>
+          </div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="card mb-3">
+          <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Cookie-uri de Preferințe</h5>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="preferences"
+                id="preferencesSwitch"
+                value="true"
+                <%= currentConsent && currentConsent.consent.preferences ? 'checked' : '' %>
+              >
+            </div>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri permit site-ului să rețină alegerile dumneavoastră pentru o
+              experiență personalizată (limba, regiunea, etc.).
+            </p>
+            <small class="text-muted">
+              Exemple: Preferințe limbă, setări personalizate, tema site-ului
+            </small>
+          </div>
+        </div>
+
+        <!-- Third Party -->
+        <div class="card mb-3">
+          <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Cookie-uri Terțe</h5>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="thirdParty"
+                id="thirdPartySwitch"
+                value="true"
+                <%= currentConsent && currentConsent.consent.thirdParty ? 'checked' : '' %>
+              >
+            </div>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri sunt setate de servicii terțe integrate pe site-ul nostru
+              (hărți, video-uri, social media).
+            </p>
+            <small class="text-muted">
+              Exemple: Google Maps, YouTube, Facebook, Instagram embed
+            </small>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Salvează Preferințele
+          </button>
+          <button type="button" class="btn btn-success" id="acceptAllBtn">
+            Acceptă Toate Cookie-urile
+          </button>
+          <button type="button" class="btn btn-danger" id="rejectAllBtn">
+            Refuză Cookie-urile Non-Esențiale
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-5 text-center">
+        <p class="text-muted">
+          Pentru mai multe informații, consultați
+          <a href="/privacy/policy">Politica de Confidențialitate</a> și
+          <a href="/privacy/cookies">Politica de Cookie-uri</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Accept all cookies
+  document.getElementById('acceptAllBtn').addEventListener('click', function() {
+    document.getElementById('analyticsSwitch').checked = true;
+    document.getElementById('marketingSwitch').checked = true;
+    document.getElementById('preferencesSwitch').checked = true;
+    document.getElementById('thirdPartySwitch').checked = true;
+    document.getElementById('consentForm').submit();
+  });
+
+  // Reject all non-essential cookies
+  document.getElementById('rejectAllBtn').addEventListener('click', function() {
+    document.getElementById('analyticsSwitch').checked = false;
+    document.getElementById('marketingSwitch').checked = false;
+    document.getElementById('preferencesSwitch').checked = false;
+    document.getElementById('thirdPartySwitch').checked = false;
+    document.getElementById('consentForm').submit();
+  });
+</script>
+
+<%- include('../partials/footer') %>

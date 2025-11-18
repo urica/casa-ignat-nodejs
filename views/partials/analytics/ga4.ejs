@@ -1,0 +1,53 @@
+<%# Google Analytics 4 %>
+<% if (analytics.ga4MeasurementId && hasAnalyticsConsent) { %>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<%= analytics.ga4MeasurementId %>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Set consent mode first
+  gtag('consent', 'default', {
+    'analytics_storage': '<%= hasAnalyticsConsent ? "granted" : "denied" %>',
+    'ad_storage': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+    'ad_user_data': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+    'ad_personalization': '<%= hasMarketingConsent ? "granted" : "denied" %>',
+  });
+
+  gtag('js', new Date());
+
+  // Initialize GA4
+  gtag('config', '<%= analytics.ga4MeasurementId %>', {
+    'anonymize_ip': <%= process.env.GA_ANONYMIZE_IP !== 'false' %>,
+    'cookie_flags': 'SameSite=Lax;Secure',
+    'cookie_domain': '<%= config.app.domain || "auto" %>',
+    <% if (user) { %>
+    'user_id': '<%= user.id %>',
+    <% } %>
+    'custom_map': {
+      'dimension1': 'user_role',
+      'dimension2': 'page_type',
+      'dimension3': 'content_category',
+    }
+  });
+
+  <% if (user) { %>
+  // Set user properties
+  gtag('set', 'user_properties', {
+    'user_role': '<%= user.role %>',
+    'account_created': '<%= user.createdAt %>',
+  });
+  <% } %>
+
+  // Enhanced measurement events
+  gtag('event', 'page_view', {
+    'page_title': '<%= title || "" %>',
+    'page_location': window.location.href,
+    'page_path': window.location.pathname,
+    <% if (typeof pageType !== 'undefined') { %>
+    'page_type': '<%= pageType %>',
+    <% } %>
+  });
+</script>
+<!-- End Google Analytics 4 -->
+<% } %>

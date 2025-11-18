@@ -1,0 +1,243 @@
+<%- include('../partials/header') %>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <h1 class="mb-4">Politica de Confidențialitate</h1>
+
+      <div class="alert alert-info">
+        <strong>Versiune:</strong> <%= version %> |
+        <strong>Ultima actualizare:</strong> <%= lastUpdated.toLocaleDateString('ro-RO') %>
+      </div>
+
+      <section class="mb-5">
+        <h2>1. Introducere</h2>
+        <p>
+          Casa Ignat ("noi", "al nostru") respectă dreptul dumneavoastră la confidențialitate și
+          este angajată să protejeze datele personale pe care ni le furnizați. Această politică
+          de confidențialitate explică ce date colectăm, cum le folosim și care sunt drepturile
+          dumneavoastră conform GDPR (Regulamentul General privind Protecția Datelor).
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>2. Responsabilul cu Protecția Datelor</h2>
+        <p>
+          <strong>Nume:</strong> Casa Ignat<br>
+          <strong>Email:</strong> <%= process.env.ADMIN_EMAIL || 'dpo@casaignat.ro' %><br>
+          <strong>Telefon:</strong> <%= process.env.CONTACT_PHONE || '+40 XXX XXX XXX' %>
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>3. Ce Date Colectăm</h2>
+
+        <h3 class="h5 mt-4">3.1 Date cu Caracter Personal</h3>
+        <ul>
+          <li><strong>Date de identificare:</strong> nume, prenume, email, număr de telefon</li>
+          <li><strong>Date de rezervare:</strong> detalii despre camera, perioada de ședere, preferințe speciale</li>
+          <li><strong>Date de programare:</strong> servicii solicitate, date și ore programări</li>
+          <li><strong>Date financiare:</strong> informații despre plată (procesate securizat prin procesatori autorizați)</li>
+          <li><strong>Date tehnice:</strong> adresă IP, tip browser, sistem de operare, cookie-uri</li>
+        </ul>
+
+        <h3 class="h5 mt-4">3.2 Date Speciale</h3>
+        <p>
+          Pentru serviciile noastre de consultanță în nutriție, putem colecta date privind starea de sănătate,
+          alergii alimentare, sau alte informații medicale relevante. Aceste date sunt procesate doar cu
+          consimțământul dumneavoastră explicit și sunt stocate securizat.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>4. Cum Folosim Datele</h2>
+        <p>Folosim datele dumneavoastră personale pentru:</p>
+        <ul>
+          <li>Procesarea rezervărilor și programărilor</li>
+          <li>Comunicarea cu dumneavoastră despre serviciile noastre</li>
+          <li>Îmbunătățirea calității serviciilor noastre</li>
+          <li>Respectarea obligațiilor legale și fiscale</li>
+          <li>Marketing (doar cu consimțământul dumneavoastră)</li>
+          <li>Analiza statistică și îmbunătățirea website-ului</li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2>5. Baza Legală pentru Procesare</h2>
+        <p>Procesăm datele dumneavoastră pe baza:</p>
+        <ul>
+          <li><strong>Consimțământ:</strong> pentru newsletter, marketing, cookie-uri non-esențiale</li>
+          <li><strong>Contract:</strong> pentru procesarea rezervărilor și prestarea serviciilor</li>
+          <li><strong>Obligație legală:</strong> pentru conformitatea fiscală și contabilă</li>
+          <li><strong>Interes legitim:</strong> pentru securitatea website-ului și prevenirea fraudelor</li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2>6. Partajarea Datelor cu Terți</h2>
+        <p>Putem partaja datele dumneavoastră cu:</p>
+        <ul>
+          <li><strong>Procesatori de plăți:</strong> pentru procesarea securizată a tranzacțiilor</li>
+          <li><strong>Servicii de email:</strong> pentru trimiterea confirmărilor și newsletter-ului</li>
+          <li><strong>Servicii de analiză:</strong> Google Analytics (cu IP anonimizat)</li>
+          <li><strong>Autorități:</strong> când este cerut de lege</li>
+        </ul>
+        <p>
+          <strong>Important:</strong> Nu vindem și nu închiriem datele dumneavoastră personale către terți
+          în scopuri comerciale.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>7. Transfer Internațional de Date</h2>
+        <p>
+          Datele dumneavoastră sunt stocate pe servere localizate în Uniunea Europeană.
+          Anumite servicii terțe (ex: Google Analytics) pot transfera date în afara UE,
+          dar doar cu garanții adecvate conform GDPR.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>8. Perioada de Stocare</h2>
+        <ul>
+          <li><strong>Date de rezervare:</strong> 7 ani (conform legislației fiscale)</li>
+          <li><strong>Date de programare:</strong> 5 ani (conform legislației medicale)</li>
+          <li><strong>Comentarii blog:</strong> pe toată durata existenței conținutului</li>
+          <li><strong>Consimțământ marketing:</strong> până la retragere sau 2 ani de inactivitate</li>
+          <li><strong>Jurnale de audit:</strong> 90 de zile</li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2>9. Drepturile Dumneavoastră GDPR</h2>
+        <p>Aveți următoarele drepturi:</p>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Dreptul la Acces</h5>
+            <p class="card-text">
+              Puteți solicita o copie a datelor personale pe care le deținem despre dumneavoastră.
+            </p>
+            <a href="/privacy/data-request?type=access" class="btn btn-primary btn-sm">
+              Solicită Acces
+            </a>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Dreptul la Rectificare</h5>
+            <p class="card-text">
+              Puteți solicita corectarea datelor inexacte sau incomplete.
+            </p>
+            <a href="/privacy/data-request?type=rectification" class="btn btn-primary btn-sm">
+              Solicită Rectificare
+            </a>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Dreptul la Ștergere ("Dreptul de a fi uitat")</h5>
+            <p class="card-text">
+              Puteți solicita ștergerea datelor dumneavoastră în anumite condiții.
+            </p>
+            <a href="/privacy/data-request?type=erasure" class="btn btn-danger btn-sm">
+              Solicită Ștergere
+            </a>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Dreptul la Portabilitate</h5>
+            <p class="card-text">
+              Puteți primi datele dumneavoastră într-un format structurat, utilizat în mod curent.
+            </p>
+            <a href="/privacy/data-request?type=portability" class="btn btn-primary btn-sm">
+              Solicită Export
+            </a>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Dreptul la Opoziție</h5>
+            <p class="card-text">
+              Puteți obiecta la procesarea datelor pentru marketing direct sau profilare.
+            </p>
+            <a href="/privacy/data-request?type=objection" class="btn btn-warning btn-sm">
+              Depune Obiecție
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2>10. Securitatea Datelor</h2>
+        <p>Implementăm măsuri tehnice și organizatorice pentru protecția datelor:</p>
+        <ul>
+          <li>Criptare SSL/TLS pentru transmisia datelor</li>
+          <li>Autentificare cu doi factori pentru administratori</li>
+          <li>Backup-uri regulate și criptate</li>
+          <li>Acces restricționat pe bază de rol</li>
+          <li>Scanare antivirus pentru fișierele încărcate</li>
+          <li>Monitorizare și jurnalizare a accesărilor</li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2>11. Încălcări ale Securității Datelor</h2>
+        <p>
+          În cazul unei încălcări a securității datelor care prezintă un risc ridicat pentru
+          drepturile dumneavoastră, vom notifica autoritatea de supraveghere în termen de 72
+          de ore și vă vom informa direct despre incident și măsurile luate.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>12. Cookie-uri</h2>
+        <p>
+          Utilizăm cookie-uri pentru îmbunătățirea experienței utilizatorilor. Pentru detalii
+          complete despre utilizarea cookie-urilor, consultați
+          <a href="/privacy/cookies">Politica de Cookie-uri</a>.
+        </p>
+        <a href="/privacy/consent" class="btn btn-secondary">Gestionează Preferințele</a>
+      </section>
+
+      <section class="mb-5">
+        <h2>13. Modificări ale Politicii</h2>
+        <p>
+          Ne rezervăm dreptul de a actualiza această politică de confidențialitate. Orice
+          modificare semnificativă va fi comunicată prin email sau prin notificare pe website.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>14. Contact și Plângeri</h2>
+        <p>
+          Pentru orice întrebări sau solicitări legate de datele dumneavoastră personale,
+          ne puteți contacta la:
+        </p>
+        <p>
+          <strong>Email:</strong> <%= process.env.ADMIN_EMAIL || 'dpo@casaignat.ro' %><br>
+          <strong>Telefon:</strong> <%= process.env.CONTACT_PHONE || '+40 XXX XXX XXX' %><br>
+          <strong>Adresă:</strong> <%= process.env.CONTACT_ADDRESS || 'Strada Casa Ignat, Nr. X' %>
+        </p>
+        <p>
+          De asemenea, aveți dreptul de a depune o plângere la Autoritatea Națională de
+          Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP).
+        </p>
+      </section>
+
+      <div class="text-center mt-5">
+        <a href="/privacy/consent" class="btn btn-primary btn-lg">Gestionează Consimțământul</a>
+        <a href="/privacy/data-request" class="btn btn-outline-primary btn-lg ms-2">
+          Solicită Datele Tale
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

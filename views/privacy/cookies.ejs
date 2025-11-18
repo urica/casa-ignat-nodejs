@@ -1,0 +1,275 @@
+<%- include('../partials/header') %>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <h1 class="mb-4">Politica de Cookie-uri</h1>
+
+      <div class="alert alert-info">
+        <strong>Versiune:</strong> <%= version %> |
+        <strong>Ultima actualizare:</strong> <%= lastUpdated.toLocaleDateString('ro-RO') %>
+      </div>
+
+      <section class="mb-5">
+        <h2>1. Ce sunt Cookie-urile?</h2>
+        <p>
+          Cookie-urile sunt fișiere text mici stocate pe dispozitivul dumneavoastră atunci când
+          vizitați un site web. Ele ajută site-ul să funcționeze eficient, să îmbunătățească
+          experiența utilizatorului și să furnizeze informații proprietarilor site-ului.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>2. Tipuri de Cookie-uri Utilizate</h2>
+
+        <div class="card mb-3">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Cookie-uri Strict Necesare (întotdeauna active)</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              Aceste cookie-uri sunt esențiale pentru funcționarea site-ului și nu pot fi dezactivate.
+            </p>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nume Cookie</th>
+                  <th>Scop</th>
+                  <th>Durată</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>connect.sid</code></td>
+                  <td>Sesiune utilizator</td>
+                  <td>24 ore</td>
+                </tr>
+                <tr>
+                  <td><code>csrfToken</code></td>
+                  <td>Protecție CSRF</td>
+                  <td>Sesiune</td>
+                </tr>
+                <tr>
+                  <td><code>cookieConsent</code></td>
+                  <td>Preferințe consimțământ</td>
+                  <td>1 an</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Cookie-uri de Performanță și Analiză</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              Ne ajută să înțelegem cum interacționează vizitatorii cu site-ul nostru, colectând
+              informații anonime.
+            </p>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nume Cookie</th>
+                  <th>Furnizor</th>
+                  <th>Scop</th>
+                  <th>Durată</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>_ga</code></td>
+                  <td>Google Analytics</td>
+                  <td>Distinge utilizatorii</td>
+                  <td>2 ani</td>
+                </tr>
+                <tr>
+                  <td><code>_gid</code></td>
+                  <td>Google Analytics</td>
+                  <td>Distinge utilizatorii</td>
+                  <td>24 ore</td>
+                </tr>
+                <tr>
+                  <td><code>_gat</code></td>
+                  <td>Google Analytics</td>
+                  <td>Limitează rata de cereri</td>
+                  <td>1 minut</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-2">
+              <strong>Note:</strong> IP-urile sunt anonimizate în Google Analytics conform GDPR.
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Cookie-uri de Marketing</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              Utilizate pentru a afișa reclame relevante și pentru a măsura eficiența campaniilor.
+            </p>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nume Cookie</th>
+                  <th>Furnizor</th>
+                  <th>Scop</th>
+                  <th>Durată</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>_fbp</code></td>
+                  <td>Facebook Pixel</td>
+                  <td>Urmărire conversii</td>
+                  <td>3 luni</td>
+                </tr>
+                <tr>
+                  <td><code>fr</code></td>
+                  <td>Facebook</td>
+                  <td>Reclame targetate</td>
+                  <td>3 luni</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Cookie-uri de Preferințe</h5>
+          </div>
+          <div class="card-body">
+            <p>
+              Permit site-ului să rețină alegerile dumneavoastră (ex: limba, regiunea).
+            </p>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nume Cookie</th>
+                  <th>Scop</th>
+                  <th>Durată</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>userPreferences</code></td>
+                  <td>Setări utilizator</td>
+                  <td>1 an</td>
+                </tr>
+                <tr>
+                  <td><code>language</code></td>
+                  <td>Preferință limbă</td>
+                  <td>1 an</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2>3. Cookie-uri Terțe</h2>
+        <p>
+          Anumite servicii terțe pe care le folosim pot seta propriile cookie-uri:
+        </p>
+        <ul>
+          <li><strong>Google Analytics:</strong> Pentru statistici de vizitare (cu IP anonimizat)</li>
+          <li><strong>Facebook Pixel:</strong> Pentru remarketing (doar cu consimțământ)</li>
+          <li><strong>Google Fonts:</strong> Pentru încărcarea fonturilor</li>
+        </ul>
+        <p>
+          Aceste servicii terțe au propriile politici de confidențialitate:
+        </p>
+        <ul>
+          <li>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">
+              Google Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener">
+              Facebook Privacy Policy
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2>4. Gestionarea Cookie-urilor</h2>
+        <p>
+          Puteți controla și șterge cookie-urile după preferințe. Puteți șterge toate cookie-urile
+          deja prezente pe computer și puteți configura majoritatea browserelor să le blocheze.
+        </p>
+
+        <h3 class="h5 mt-4">Gestionare prin Browser:</h3>
+        <ul>
+          <li>
+            <a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">
+              Google Chrome
+            </a>
+          </li>
+          <li>
+            <a href="https://support.mozilla.org/ro/kb/cookie-urile-informatii-stocate-pe-calculator" target="_blank" rel="noopener">
+              Mozilla Firefox
+            </a>
+          </li>
+          <li>
+            <a href="https://support.microsoft.com/ro-ro/windows/sterge-i-gestionezi-cookie-uri-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener">
+              Microsoft Edge
+            </a>
+          </li>
+          <li>
+            <a href="https://support.apple.com/ro-ro/guide/safari/sfri11471/mac" target="_blank" rel="noopener">
+              Safari
+            </a>
+          </li>
+        </ul>
+
+        <div class="alert alert-warning mt-3">
+          <strong>Atenție:</strong> Blocarea cookie-urilor strict necesare poate afecta funcționarea
+          corectă a site-ului (ex: nu veți putea face rezervări sau să vă autentificați).
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2>5. Actualizarea Preferințelor</h2>
+        <p>
+          Puteți actualiza preferințele dumneavoastră de cookie-uri oricând accesând centrul
+          de preferințe:
+        </p>
+        <div class="text-center">
+          <a href="/privacy/consent" class="btn btn-primary btn-lg">
+            Gestionează Preferințele Cookie-uri
+          </a>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2>6. Contact</h2>
+        <p>
+          Pentru întrebări despre utilizarea cookie-urilor, ne puteți contacta la:
+        </p>
+        <p>
+          <strong>Email:</strong> <%= process.env.ADMIN_EMAIL || 'contact@casaignat.ro' %><br>
+          <strong>Telefon:</strong> <%= process.env.CONTACT_PHONE || '+40 XXX XXX XXX' %>
+        </p>
+      </section>
+
+      <div class="text-center mt-5">
+        <a href="/privacy/policy" class="btn btn-outline-primary">
+          Politica de Confidențialitate
+        </a>
+        <a href="/privacy/consent" class="btn btn-primary ms-2">
+          Gestionează Consimțământul
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

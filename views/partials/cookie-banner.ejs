@@ -1,0 +1,222 @@
+<!-- Cookie Consent Banner -->
+<% if (!hasConsent || !hasConsent.necessary) { %>
+<div id="cookieConsentBanner" class="cookie-consent-banner" style="display: none;">
+  <div class="cookie-consent-content">
+    <div class="cookie-consent-text">
+      <h5>Respectăm confidențialitatea ta</h5>
+      <p>
+        Folosim cookie-uri pentru a îmbunătăți experiența ta pe site-ul nostru.
+        Cookie-urile strict necesare sunt întotdeauna active. Poți alege ce alte tipuri
+        de cookie-uri dorești să activezi.
+      </p>
+    </div>
+
+    <div class="cookie-consent-actions">
+      <button type="button" class="btn btn-primary" id="acceptAllCookies">
+        Acceptă Toate
+      </button>
+      <button type="button" class="btn btn-outline-secondary" id="rejectOptionalCookies">
+        Doar Necesare
+      </button>
+      <button type="button" class="btn btn-outline-light" id="customizeCookies">
+        Personalizează
+      </button>
+    </div>
+
+    <div class="cookie-consent-links">
+      <a href="/privacy/policy" target="_blank">Politica de Confidențialitate</a> |
+      <a href="/privacy/cookies" target="_blank">Politica de Cookie-uri</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(33, 37, 41, 0.98);
+    color: white;
+    padding: 20px;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .cookie-consent-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .cookie-consent-text h5 {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+  }
+
+  .cookie-consent-text p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .cookie-consent-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .cookie-consent-links {
+    font-size: 0.85rem;
+    margin-top: 5px;
+  }
+
+  .cookie-consent-links a {
+    color: #adb5bd;
+    text-decoration: none;
+  }
+
+  .cookie-consent-links a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
+  @media (min-width: 768px) {
+    .cookie-consent-content {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cookie-consent-text {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    .cookie-consent-actions {
+      flex-shrink: 0;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    // Check if consent cookie exists
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = `expires=${date.toUTCString()}`;
+      document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax`;
+    }
+
+    function setConsent(consent) {
+      setCookie('cookieConsent', JSON.stringify(consent), 365);
+
+      // Send to server
+      fetch('/privacy/consent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(consent),
+      }).then(response => {
+        if (response.ok) {
+          hideBanner();
+          // Reload page to apply consent changes
+          window.location.reload();
+        }
+      }).catch(error => {
+        console.error('Error saving consent:', error);
+        hideBanner();
+      });
+    }
+
+    function hideBanner() {
+      const banner = document.getElementById('cookieConsentBanner');
+      if (banner) {
+        banner.style.animation = 'slideDown 0.3s ease-out';
+        setTimeout(() => {
+          banner.style.display = 'none';
+        }, 300);
+      }
+    }
+
+    // Show banner if no consent cookie
+    const consentCookie = getCookie('cookieConsent');
+    if (!consentCookie) {
+      const banner = document.getElementById('cookieConsentBanner');
+      if (banner) {
+        setTimeout(() => {
+          banner.style.display = 'block';
+        }, 1000); // Show after 1 second
+      }
+    }
+
+    // Accept all cookies
+    const acceptAllBtn = document.getElementById('acceptAllCookies');
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', function() {
+        setConsent({
+          necessary: true,
+          analytics: true,
+          marketing: true,
+          preferences: true,
+          thirdParty: true,
+        });
+      });
+    }
+
+    // Reject optional cookies
+    const rejectBtn = document.getElementById('rejectOptionalCookies');
+    if (rejectBtn) {
+      rejectBtn.addEventListener('click', function() {
+        setConsent({
+          necessary: true,
+          analytics: false,
+          marketing: false,
+          preferences: false,
+          thirdParty: false,
+        });
+      });
+    }
+
+    // Customize cookies
+    const customizeBtn = document.getElementById('customizeCookies');
+    if (customizeBtn) {
+      customizeBtn.addEventListener('click', function() {
+        window.location.href = '/privacy/consent';
+      });
+    }
+  })();
+</script>
+
+<style>
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+</style>
+<% } %>
