@@ -5,6 +5,7 @@ const roomsController = require('../controllers/roomsController');
 const restaurantController = require('../controllers/restaurantController');
 const galleryController = require('../controllers/galleryController');
 const contactController = require('../controllers/contactController');
+const sitemapController = require('../controllers/sitemapController');
 
 // Home page
 router.get('/', homeController.index);
@@ -31,6 +32,44 @@ router.post('/rezervare', homeController.submitBooking);
 // Health check endpoint for Docker
 router.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// SEO - Sitemap
+router.get('/sitemap.xml', sitemapController.generateSitemap);
+
+// SEO - Robots.txt
+router.get('/robots.txt', (req, res) => {
+  const baseUrl = process.env.SITE_URL || `${req.protocol}://${req.get('host')}`;
+  const robotsTxt = `# Casa Ignat - Robots.txt
+# https://casa-ignat.ro
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: ${baseUrl}/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/private/
+
+# Disallow login pages
+Disallow: /admin/login
+
+# Disallow search result pages (if any)
+Disallow: /search?
+Disallow: /cautare?
+
+# Allow public API endpoints
+Allow: /api/
+
+# Crawl-delay (optional, adjust if needed)
+Crawl-delay: 1
+`;
+
+  res.header('Content-Type', 'text/plain');
+  res.header('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+  res.send(robotsTxt);
 });
 
 module.exports = router;

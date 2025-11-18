@@ -1,0 +1,128 @@
+<%
+/**
+ * Organization & LocalBusiness Schema Markup
+ * JSON-LD structured data pentru organizație și business local
+ *
+ * Variables optional:
+ * - settings: Obiect cu setări site (address, contact, social, etc.)
+ */
+
+const orgName = settings?.siteName || 'Casa Ignat';
+const orgDescription = settings?.description || 'Cabinet profesional de nutriție și consultanță în alimentație sănătoasă';
+const orgUrl = settings?.siteUrl || 'https://casa-ignat.ro';
+const orgLogo = settings?.logo || `${orgUrl}/images/logo.png`;
+const orgImage = settings?.image || orgLogo;
+
+// Address
+const address = settings?.address || {};
+const street = address.street || '';
+const city = address.city || 'București';
+const region = address.region || 'București';
+const postalCode = address.postalCode || '';
+
+// Contact
+const contact = settings?.contact || {};
+const phone = contact.phone || '';
+const email = contact.email || '';
+
+// Social Media
+const socialMedia = settings?.socialMedia || {};
+const facebook = socialMedia.facebook || '';
+const instagram = socialMedia.instagram || '';
+const linkedin = socialMedia.linkedin || '';
+
+// Aggregate rating (dacă există)
+const rating = settings?.aggregateRating || null;
+
+// Opening hours
+const openingHours = settings?.openingHours || {
+  weekdays: { opens: '09:00', closes: '18:00' },
+  saturday: { opens: '10:00', closes: '14:00' }
+};
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'LocalBusiness', 'HealthAndBeautyBusiness', 'MedicalBusiness'],
+  '@id': `${orgUrl}#organization`,
+  name: orgName,
+  description: orgDescription,
+  url: orgUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: orgLogo,
+    width: '600',
+    height: '60'
+  },
+  image: {
+    '@type': 'ImageObject',
+    url: orgImage
+  },
+  priceRange: '$$',
+
+  // Address
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: street,
+    addressLocality: city,
+    addressRegion: region,
+    postalCode: postalCode,
+    addressCountry: 'RO'
+  },
+
+  // Contact
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: phone,
+    email: email,
+    contactType: 'customer service',
+    availableLanguage: ['ro', 'en']
+  },
+
+  // Opening Hours
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: openingHours.weekdays?.opens || '09:00',
+      closes: openingHours.weekdays?.closes || '18:00'
+    }
+  ],
+
+  // Area Served
+  areaServed: {
+    '@type': 'City',
+    name: city
+  }
+};
+
+// Add social media links
+const sameAs = [facebook, instagram, linkedin].filter(Boolean);
+if (sameAs.length > 0) {
+  schema.sameAs = sameAs;
+}
+
+// Add aggregate rating if exists
+if (rating && rating.value && rating.count) {
+  schema.aggregateRating = {
+    '@type': 'AggregateRating',
+    ratingValue: rating.value,
+    reviewCount: rating.count,
+    bestRating: '5',
+    worstRating: '1'
+  };
+}
+
+// Add Saturday hours if different
+if (openingHours.saturday) {
+  schema.openingHoursSpecification.push({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: 'Saturday',
+    opens: openingHours.saturday.opens,
+    closes: openingHours.saturday.closes
+  });
+}
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

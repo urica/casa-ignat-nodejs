@@ -1,0 +1,114 @@
+<%
+/**
+ * MedicalService / Service Schema Markup
+ * JSON-LD structured data pentru servicii (medical și generale)
+ *
+ * Variables required:
+ * - service: Obiect cu datele serviciului (name, description, price, etc.)
+ */
+
+if (typeof service === 'undefined' || !service) {
+  // Skip rendering if no service data
+  return;
+}
+
+const baseUrl = settings?.siteUrl || 'https://casa-ignat.ro';
+const serviceUrl = service.url || `${baseUrl}/servicii/${service.slug}`;
+const serviceImage = service.image || service.seo?.ogImage || `${baseUrl}/images/services-default.jpg`;
+const serviceName = service.seo?.metaTitle || service.name;
+const serviceDescription = service.seo?.metaDescription || service.description || '';
+const serviceCategory = service.category || 'Nutrition Counseling';
+
+// Price info
+const servicePrice = service.price || null;
+const serviceDuration = service.duration || null;
+
+// Provider info
+const providerName = service.provider?.name || 'Casa Ignat';
+const providerUrl = service.provider?.url || baseUrl;
+
+// Determine if it's a medical service
+const isMedicalService = ['consultatie', 'consultatii', 'medical', 'nutrition'].some(term =>
+  serviceCategory.toLowerCase().includes(term) ||
+  serviceName.toLowerCase().includes(term)
+);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': isMedicalService ? 'MedicalService' : 'Service',
+  '@id': `${serviceUrl}#service`,
+  name: serviceName,
+  description: serviceDescription,
+  url: serviceUrl,
+  image: {
+    '@type': 'ImageObject',
+    url: serviceImage
+  },
+
+  // Service Type
+  serviceType: serviceCategory,
+
+  // Provider
+  provider: {
+    '@type': isMedicalService ? 'MedicalOrganization' : 'Organization',
+    '@id': `${baseUrl}#organization`,
+    name: providerName,
+    url: providerUrl
+  },
+
+  // Area Served
+  areaServed: {
+    '@type': 'City',
+    name: settings?.city || 'București'
+  }
+};
+
+// Add price if available
+if (servicePrice) {
+  schema.offers = {
+    '@type': 'Offer',
+    price: servicePrice,
+    priceCurrency: 'RON',
+    availability: 'https://schema.org/InStock'
+  };
+
+  // Add duration to offer if available
+  if (serviceDuration) {
+    schema.offers.eligibleDuration = {
+      '@type': 'QuantitativeValue',
+      value: serviceDuration,
+      unitText: 'minute'
+    };
+  }
+}
+
+// Add features if available
+if (service.features && Array.isArray(service.features) && service.features.length > 0) {
+  schema.additionalProperty = service.features.map(feature => ({
+    '@type': 'PropertyValue',
+    name: 'Feature',
+    value: feature
+  }));
+}
+
+// Medical service specific fields
+if (isMedicalService) {
+  // Add medical specialty if available
+  schema.medicalSpecialty = {
+    '@type': 'MedicalSpecialty',
+    name: 'Nutrition'
+  };
+
+  // Add conditions treated if available
+  if (service.conditionsTreated && Array.isArray(service.conditionsTreated)) {
+    schema.relevantSpecialty = service.conditionsTreated.map(condition => ({
+      '@type': 'MedicalCondition',
+      name: condition
+    }));
+  }
+}
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

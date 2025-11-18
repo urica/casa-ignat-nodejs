@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagină inexistentă - 404 | Casa Ignat</title>
+  <meta name="description" content="Pagina căutată nu a fost găsită. Reveniți la pagina principală sau explorați celelalte secțiuni ale site-ului Casa Ignat.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pagină inexistentă - 404 | Casa Ignat">
+  <meta property="og:description" content="Pagina căutată nu a fost găsită.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .error-container {
+      max-width: 600px;
+      text-align: center;
+      background: white;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 900;
+      color: #4a7c59;
+      line-height: 1;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .error-description {
+      font-size: 1.125rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #4a7c59;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #3a5f44;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 124, 89, 0.3);
+    }
+
+    .btn-secondary {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-2px);
+    }
+
+    .helpful-links {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .helpful-links h3 {
+      font-size: 1.125rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .links-list a {
+      color: #4a7c59;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .links-list a:hover {
+      color: #3a5f44;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .error-container {
+        padding: 2rem;
+      }
+
+      .error-code {
+        font-size: 5rem;
+      }
+
+      .error-title {
+        font-size: 1.5rem;
+      }
+
+      .error-description {
+        font-size: 1rem;
+      }
+
+      .error-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Pagina nu a fost găsită</h1>
+    <p class="error-description">
+      Ne pare rău, dar pagina pe care o căutați nu există sau a fost mutată.
+      Vă rugăm să verificați adresa URL sau să reveniți la pagina principală.
+    </p>
+
+    <div class="error-actions">
+      <a href="/" class="btn btn-primary">Înapoi la pagina principală</a>
+      <a href="javascript:history.back()" class="btn btn-secondary">Înapoi la pagina anterioară</a>
+    </div>
+
+    <div class="helpful-links">
+      <h3>Link-uri utile:</h3>
+      <div class="links-list">
+        <a href="/">Acasă</a>
+        <a href="/despre">Despre noi</a>
+        <a href="/servicii">Servicii</a>
+        <a href="/echipa">Echipa</a>
+        <a href="/blog">Blog</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "404 - Pagină inexistentă",
+    "description": "Pagina căutată nu a fost găsită.",
+    "url": "<%= typeof currentUrl !== 'undefined' ? currentUrl : '' %>"
+  }
+  </script>
+</body>
+</html>

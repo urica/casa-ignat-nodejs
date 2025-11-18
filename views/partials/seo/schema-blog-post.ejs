@@ -1,0 +1,98 @@
+<%
+/**
+ * BlogPosting Schema Markup
+ * JSON-LD structured data pentru articole de blog
+ *
+ * Variables required:
+ * - post: Obiect cu datele articolului (title, description, url, author, etc.)
+ */
+
+if (typeof post === 'undefined' || !post) {
+  // Skip rendering if no post data
+  return;
+}
+
+const baseUrl = settings?.siteUrl || 'https://casa-ignat.ro';
+const postUrl = post.url || `${baseUrl}/blog/${post.slug}`;
+const postImage = post.featuredImage || post.seo?.ogImage || `${baseUrl}/images/og-default.jpg`;
+const postTitle = post.seo?.metaTitle || post.title;
+const postDescription = post.seo?.metaDescription || post.excerpt || '';
+const postContent = post.content || '';
+const postKeywords = Array.isArray(post.seo?.keywords) ? post.seo.keywords.join(', ') : (post.tags || []).join(', ');
+
+// Author info
+const authorName = post.author?.name || 'Casa Ignat';
+const authorUrl = post.author?.url || baseUrl;
+
+// Dates
+const publishedDate = post.publishedAt ? new Date(post.publishedAt).toISOString() : new Date(post.createdAt).toISOString();
+const modifiedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishedDate;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${postUrl}#article`,
+  headline: postTitle,
+  description: postDescription,
+  url: postUrl,
+  image: {
+    '@type': 'ImageObject',
+    url: postImage
+  },
+
+  // Main entity
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': postUrl
+  },
+
+  // Author
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: authorUrl
+  },
+
+  // Publisher
+  publisher: {
+    '@type': 'Organization',
+    name: 'Casa Ignat',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/images/logo.png`,
+      width: '600',
+      height: '60'
+    }
+  },
+
+  // Dates
+  datePublished: publishedDate,
+  dateModified: modifiedDate,
+
+  // Content
+  articleBody: postContent.replace(/<[^>]*>/g, '').substring(0, 500),
+  keywords: postKeywords,
+
+  // Language
+  inLanguage: 'ro'
+};
+
+// Add word count if available
+if (post.wordCount) {
+  schema.wordCount = post.wordCount;
+}
+
+// Add reading time if available
+if (post.readingTime) {
+  schema.timeRequired = `PT${post.readingTime}M`;
+}
+
+// Add category if available
+if (post.category) {
+  schema.articleSection = post.category;
+}
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

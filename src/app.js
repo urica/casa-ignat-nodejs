@@ -15,6 +15,7 @@ const flash = require('connect-flash');
 const config = require('../config/app');
 const { ensureUploadDirs } = require('../config/upload');
 const csrfMiddleware = require('./middleware/csrf');
+const { autoBreadcrumbs } = require('./middleware/breadcrumbs');
 
 const app = express();
 
@@ -117,11 +118,41 @@ app.use((req, res, next) => {
   res.locals.warning = req.flash('warning');
   res.locals.info = req.flash('info');
   res.locals.helpers = require('./utils/helpers');
+  res.locals.seoHelpers = require('./utils/seoHelpers');
+  res.locals.req = req; // Make request object available for SEO (URL, etc.)
+
+  // Set default SEO settings if not already set
+  if (!res.locals.settings) {
+    res.locals.settings = {
+      siteName: 'Casa Ignat',
+      siteUrl: process.env.SITE_URL || `${req.protocol}://${req.get('host')}`,
+      description: 'Cabinet profesional de nutriție și consultanță în alimentație sănătoasă',
+      contact: {
+        phone: process.env.CONTACT_PHONE || '',
+        email: process.env.CONTACT_EMAIL || ''
+      },
+      address: {
+        street: process.env.ADDRESS_STREET || '',
+        city: process.env.ADDRESS_CITY || 'București',
+        region: process.env.ADDRESS_REGION || 'București',
+        postalCode: process.env.ADDRESS_POSTAL_CODE || ''
+      },
+      socialMedia: {
+        facebook: process.env.SOCIAL_FACEBOOK || '',
+        instagram: process.env.SOCIAL_INSTAGRAM || '',
+        linkedin: process.env.SOCIAL_LINKEDIN || ''
+      }
+    };
+  }
+
   next();
 });
 
 // Ensure upload directories exist
 ensureUploadDirs();
+
+// Auto-generate breadcrumbs middleware
+app.use(autoBreadcrumbs);
 
 // Routes
 app.use('/', require('./routes/index'));
@@ -130,9 +161,18 @@ app.use('/admin', require('./routes/admin'));
 
 // 404 handler
 app.use((req, res, next) => {
+  const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   res.status(404).render('pages/404', {
-    title: 'Pagina nu a fost găsită',
+    title: 'Pagină inexistentă - 404 | Casa Ignat',
+    description: 'Pagina căutată nu a fost găsită. Reveniți la pagina principală sau explorați celelalte secțiuni.',
     url: req.originalUrl,
+    currentUrl: currentUrl,
+    seo: {
+      title: 'Pagină inexistentă - 404 | Casa Ignat',
+      description: 'Pagina căutată nu a fost găsită.',
+      noIndex: true,
+      noFollow: true
+    }
   });
 });
 
