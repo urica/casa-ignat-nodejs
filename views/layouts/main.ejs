@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Casa Ignat - Cabinet de nutriție și dietă personalizată condus de Dr. Anca Ignat. Transformă-ți sănătatea prin consultații nutriționale profesionale.' %>">
+  <meta name="keywords" content="nutriție, dietă, sănătate, consultații nutriționale, Dr. Anca Ignat">
+  <meta name="author" content="Casa Ignat">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Transformă-ți sănătatea prin nutriție personalizată' %>">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="<%= title %>">
+
+  <title><%= title %></title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/main.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Additional head content -->
+  <% if (typeof additionalHead !== 'undefined') { %>
+    <%- additionalHead %>
+  <% } %>
+</head>
+<body>
+  <!-- Header -->
+  <%- include('../partials/header') %>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <%- body %>
+  </main>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+
+  <!-- Additional scripts -->
+  <% if (typeof additionalScripts !== 'undefined') { %>
+    <%- additionalScripts %>
+  <% } %>
+</body>
+</html>

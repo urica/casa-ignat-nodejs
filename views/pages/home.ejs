@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Casa Ignat - Cabinet de nutriție și dietă personalizată condus de Dr. Anca Ignat. Transformă-ți sănătatea prin consultații nutriționale profesionale.">
+  <meta name="keywords" content="nutriție, dietă, sănătate, consultații nutriționale, Dr. Anca Ignat">
+
+  <title><%= title %></title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <!-- Header -->
+  <%- include('../partials/header', { page: 'home' }) %>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__background">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__content">
+        <div class="container">
+          <div class="hero__text">
+            <h1 class="hero__title animate-fade-in">
+              Transformă-ți Sănătatea prin Nutriție Personalizată
+            </h1>
+            <p class="hero__subtitle animate-fade-in" style="animation-delay: 0.2s;">
+              Descoperi puterea unei alimentații echilibrate și obține rezultate durabile cu ajutorul expertizei noastre în nutriție clinică și sportivă.
+            </p>
+            <div class="hero__actions animate-fade-in" style="animation-delay: 0.4s;">
+              <a href="/programare" class="btn btn--primary btn--lg">
+                Programează Consultație
+              </a>
+              <a href="/servicii/consultatii" class="btn btn--ghost btn--lg">
+                Descoperă Serviciile
+              </a>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="hero__badges animate-fade-in" style="animation-delay: 0.6s;">
+            <div class="trust-badge">
+              <div class="trust-badge__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <div class="trust-badge__content">
+                <div class="trust-badge__number">15+</div>
+                <div class="trust-badge__label">Ani Experiență</div>
+              </div>
+            </div>
+
+            <div class="trust-badge">
+              <div class="trust-badge__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="trust-badge__content">
+                <div class="trust-badge__number">5000+</div>
+                <div class="trust-badge__label">Pacienți Mulțumiți</div>
+              </div>
+            </div>
+
+            <div class="trust-badge">
+              <div class="trust-badge__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <div class="trust-badge__content">
+                <div class="trust-badge__number">AND</div>
+                <div class="trust-badge__label">Acreditat</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section section--services">
+      <div class="container">
+        <div class="section__header text-center">
+          <h2 class="section__title">Serviciile Noastre</h2>
+          <p class="section__subtitle">
+            Oferim consultații personalizate și programe complete pentru transformarea stilului tău de viață
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Service Card 1 -->
+          <div class="card card--service animate-on-scroll">
+            <div class="card__body">
+              <div class="card__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <h3 class="card__title">Consultație Nutrițională</h3>
+              <p class="card__text">
+                Evaluare completă a stării de sănătate și recomandări personalizate pentru atingerea obiectivelor tale.
+              </p>
+              <a href="/servicii/consultatii" class="btn btn--ghost">
+                Află mai multe
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Service Card 2 -->
+          <div class="card card--service animate-on-scroll" style="animation-delay: 0.1s;">
+            <div class="card__body">
+              <div class="card__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <h3 class="card__title">Programe Personalizate</h3>
+              <p class="card__text">
+                Planuri nutriționale adaptate nevoilor tale, cu monitorizare constantă și ajustări regulate.
+              </p>
+              <a href="/servicii/programe" class="btn btn--ghost">
+                Află mai multe
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="card card--service animate-on-scroll" style="animation-delay: 0.2s;">
+            <div class="card__body">
+              <div class="card__icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 11l3 3L22 4"/>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+              </div>
+              <h3 class="card__title">Analize Specializate</h3>
+              <p class="card__text">
+                Investigații complete pentru identificarea deficiențelor nutriționale și optimizarea sănătății.
+              </p>
+              <a href="/servicii/analize" class="btn btn--ghost">
+                Află mai multe
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section--about">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Text Column -->
+          <div class="about-grid__text animate-on-scroll">
+            <div class="section__label">Despre Noi</div>
+            <h2 class="section__title">
+              Cabinet de Nutriție cu Experiență de Peste 15 Ani
+            </h2>
+            <p class="text-content">
+              Casa Ignat este un cabinet de nutriție condus de <strong>Dr. Anca Ignat</strong>,
+              medic specialist în nutriție și dietetică, cu peste 15 ani de experiență în domeniu.
+            </p>
+            <p class="text-content">
+              Misiunea noastră este să te ajutăm să descoperi puterea unei alimentații echilibrate și să
+              obții rezultate durabile prin consultații personalizate și programe adaptate nevoilor tale specifice.
+            </p>
+            <p class="text-content">
+              Fie că dorești să slăbești sănătos, să îmbunătățești performanța sportivă sau să gestionezi
+              o afecțiune medicală prin alimentație, suntem aici să te ghidăm pe tot parcursul călătoriei tale.
+            </p>
+
+            <div class="about-grid__features">
+              <div class="feature-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Consultații personalizate</span>
+              </div>
+              <div class="feature-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Abordare bazată pe dovezi științifice</span>
+              </div>
+              <div class="feature-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Monitorizare și suport continuu</span>
+              </div>
+            </div>
+
+            <a href="/despre/echipa" class="btn btn--primary">
+              Descoperă Echipa
+            </a>
+          </div>
+
+          <!-- Image Column -->
+          <div class="about-grid__media animate-on-scroll" style="animation-delay: 0.2s;">
+            <div class="media-placeholder">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <p>Imagine profesională<br/>Dr. Anca Ignat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section section--testimonials">
+      <div class="container">
+        <div class="section__header text-center">
+          <h2 class="section__title">Ce Spun Pacienții Noștri</h2>
+          <p class="section__subtitle">
+            Experiențele și succesele celor care au ales să își transforme sănătatea alături de noi
+          </p>
+        </div>
+
+        <div class="testimonials-carousel">
+          <div class="testimonials-carousel__track" id="testimonialsTrack">
+            <%
+            const defaultTestimonials = [
+              {
+                text: 'Dr. Anca Ignat m-a ajutat să slăbesc 15 kg în 4 luni, fără foamete și fără să renunț la plăcerea de a mânca. Recomand cu încredere!',
+                name: 'Maria Popescu',
+                rating: 5
+              },
+              {
+                text: 'Programul personalizat pentru sportivi mi-a îmbunătățit semnificativ performanța la antrenamente. Abordarea profesionistă și suportul constant fac diferența.',
+                name: 'Alex Ionescu',
+                rating: 5
+              },
+              {
+                text: 'Am reușit să îmi gestionez diabetul mult mai bine prin alimentație corectă. Mulțumesc pentru dedicare și profesionalism!',
+                name: 'Elena Dumitrescu',
+                rating: 5
+              }
+            ];
+
+            const displayTestimonials = typeof testimonials !== 'undefined' && testimonials.length > 0
+              ? testimonials.slice(0, 3)
+              : defaultTestimonials;
+            %>
+
+            <% displayTestimonials.forEach((testimonial, index) => { %>
+            <div class="testimonials-carousel__item">
+              <div class="card card--testimonial">
+                <p class="card__text">
+                  <%= typeof testimonial.text !== 'undefined' ? testimonial.text : testimonial.message %>
+                </p>
+                <div class="card--testimonial__author">
+                  <div class="card--testimonial__avatar-placeholder">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="card--testimonial__name">
+                      <%= typeof testimonial.name !== 'undefined' ? testimonial.name : testimonial.clientName %>
+                    </div>
+                    <div class="card--testimonial__rating">
+                      <% for(let i = 0; i < 5; i++) { %>
+                        ★
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+
+          <!-- Carousel Controls -->
+          <div class="testimonials-carousel__controls">
+            <button class="carousel-btn carousel-btn--prev" id="testimonialsPrev" aria-label="Testimonial anterior">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            <div class="carousel-dots" id="testimonialsDots"></div>
+            <button class="carousel-btn carousel-btn--next" id="testimonialsNext" aria-label="Testimonial următor">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section section--benefits">
+      <div class="container">
+        <div class="section__header text-center">
+          <h2 class="section__title">De Ce Să Ne Alegi</h2>
+          <p class="section__subtitle">
+            Beneficiile de a lucra cu specialiști dedicați sănătății tale
+          </p>
+        </div>
+
+        <div class="benefits-grid">
+          <!-- Benefit 1 -->
+          <div class="benefit-card animate-on-scroll">
+            <div class="benefit-card__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="benefit-card__title">Abordare Personalizată</h3>
+            <p class="benefit-card__text">
+              Fiecare plan nutrițional este adaptat nevoilor tale specifice, stilului de viață și obiectivelor personale.
+            </p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="benefit-card animate-on-scroll" style="animation-delay: 0.1s;">
+            <div class="benefit-card__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              </svg>
+            </div>
+            <h3 class="benefit-card__title">Expertiză Dovedită</h3>
+            <p class="benefit-card__text">
+              Peste 15 ani de experiență în nutriție clinică și sportivă, cu rezultate demonstrabile.
+            </p>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="benefit-card animate-on-scroll" style="animation-delay: 0.2s;">
+            <div class="benefit-card__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="benefit-card__title">Monitorizare Constantă</h3>
+            <p class="benefit-card__text">
+              Suport continuu și ajustări regulate ale planului pentru rezultate optime și durabile.
+            </p>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="benefit-card animate-on-scroll" style="animation-delay: 0.3s;">
+            <div class="benefit-card__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h3 class="benefit-card__title">Rezultate Garantate</h3>
+            <p class="benefit-card__text">
+              Mii de pacienți mulțumiți care și-au atins obiectivele de sănătate prin programele noastre.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section section--cta">
+      <div class="cta-banner">
+        <div class="container">
+          <div class="cta-banner__content">
+            <h2 class="cta-banner__title">
+              Ești Gata să Începi Transformarea?
+            </h2>
+            <p class="cta-banner__text">
+              Programează o consultație astăzi și descoperă cum nutriția personalizată poate schimba viața ta.
+            </p>
+            <a href="/programare" class="btn btn--secondary btn--lg">
+              Începe Transformarea
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="section section--blog">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <h2 class="section__title">Articole Recente</h2>
+            <p class="section__subtitle">
+              Sfaturi și informații utile despre nutriție și sănătate
+            </p>
+          </div>
+          <a href="/blog" class="btn btn--ghost">
+            Vezi toate articolele
+          </a>
+        </div>
+
+        <div class="blog-grid">
+          <!-- Blog Card 1 -->
+          <article class="card card--blog animate-on-scroll">
+            <div class="card__image-wrapper">
+              <div class="card__image media-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card__body">
+              <span class="card__category">Nutriție</span>
+              <h3 class="card__title">
+                <a href="/blog/importanta-hidratarii">5 Beneficii ale Hidratării Corecte</a>
+              </h3>
+              <p class="card__text">
+                Descoperă de ce apa este esențială pentru sănătatea ta și cât de multă ar trebui să bei zilnic.
+              </p>
+              <div class="card__meta">
+                <time datetime="2025-11-15">15 noiembrie 2025</time>
+                <span>•</span>
+                <span>5 min citire</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Blog Card 2 -->
+          <article class="card card--blog animate-on-scroll" style="animation-delay: 0.1s;">
+            <div class="card__image-wrapper">
+              <div class="card__image media-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card__body">
+              <span class="card__category">Pierdere în Greutate</span>
+              <h3 class="card__title">
+                <a href="/blog/slabire-sanatoasa">Cum să Slăbești Sănătos și Durabil</a>
+              </h3>
+              <p class="card__text">
+                Strategii dovedite științific pentru pierderea în greutate fără diete drastice sau efecte yo-yo.
+              </p>
+              <div class="card__meta">
+                <time datetime="2025-11-12">12 noiembrie 2025</time>
+                <span>•</span>
+                <span>7 min citire</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Blog Card 3 -->
+          <article class="card card--blog animate-on-scroll" style="animation-delay: 0.2s;">
+            <div class="card__image-wrapper">
+              <div class="card__image media-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card__body">
+              <span class="card__category">Nutriție Sportivă</span>
+              <h3 class="card__title">
+                <a href="/blog/alimentatie-sportivi">Alimentația Optimă pentru Sportivi</a>
+              </h3>
+              <p class="card__text">
+                Ce să mănânci înainte și după antrenament pentru performanță maximă și recuperare rapidă.
+              </p>
+              <div class="card__meta">
+                <time datetime="2025-11-10">10 noiembrie 2025</time>
+                <span>•</span>
+                <span>6 min citire</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+</body>
+</html>
