@@ -6,18 +6,16 @@ const { validationResult } = require('express-validator');
 
 exports.index = async (req, res) => {
   try {
-    // Get featured rooms
-    const featuredRooms = await Room.find({ featured: true }).limit(3);
-
     // Get approved testimonials
     const testimonials = await Testimonial.find({ approved: true })
       .sort({ createdAt: -1 })
-      .limit(6);
+      .limit(3);
 
     res.render('pages/home', {
-      title: 'Casa Ignat - Pensiune și Restaurant',
-      featuredRooms,
+      title: 'Casa Ignat - Cabinet de Nutriție și Dietă',
+      description: 'Cabinet de nutriție condus de Dr. Anca Ignat. Transformă-ți sănătatea prin consultații nutriționale personalizate și programe complete.',
       testimonials,
+      page: 'home',
     });
   } catch (error) {
     console.error('Error loading home page:', error);

@@ -707,17 +707,57 @@ select.form-control {
   border-radius: 2px;
 }
 
+/* Navbar item CTA */
+.navbar__item--cta {
+  margin-left: var(--spacing-md);
+}
+
+/* Navbar overlay */
+.navbar__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-index-fixed);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-all);
+}
+
+.navbar__overlay--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Navbar scrolled state */
+.navbar--scrolled {
+  box-shadow: var(--shadow-lg);
+}
+
+.navbar {
+  transition: transform var(--transition-base) var(--transition-timing),
+              box-shadow var(--transition-base) var(--transition-timing);
+}
+
 /* Mobile Navigation */
 @media (max-width: 768px) {
+  .navbar__overlay {
+    display: block;
+  }
+
   .navbar__toggle {
     display: flex;
   }
 
   .navbar__menu {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 60px;
     left: 0;
     right: 0;
+    bottom: 0;
     flex-direction: column;
     background-color: var(--color-bg-secondary);
     box-shadow: var(--shadow-lg);
@@ -725,19 +765,43 @@ select.form-control {
     gap: var(--spacing-sm);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
+    transform: translateX(-100%);
     transition: var(--transition-all);
+    z-index: calc(var(--z-index-fixed) + 1);
+    overflow-y: auto;
   }
 
   .navbar__menu--open {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   .navbar__link {
     width: 100%;
     padding: var(--spacing-md);
+  }
+
+  .navbar__item--cta {
+    margin-left: 0;
+    margin-top: var(--spacing-md);
+  }
+
+  .navbar__item--dropdown .navbar__dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    background: var(--color-gray-100);
+    margin-top: var(--spacing-sm);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-base) var(--transition-timing);
+  }
+
+  .navbar__item--dropdown .navbar__dropdown--open {
+    max-height: 500px;
   }
 }
 
