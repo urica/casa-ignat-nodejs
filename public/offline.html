@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Casa Ignat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .offline-container {
+            max-width: 500px;
+        }
+
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: white;
+            color: #2d6a4f;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .status.online {
+            background: rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        <h1>Fără Conexiune</h1>
+        <p>Se pare că nu aveți conexiune la internet. Verificați conexiunea și încercați din nou.</p>
+        <a href="/" class="btn" onclick="location.reload(); return false;">Reîncearcă</a>
+
+        <div class="status" id="status">
+            Verificare conexiune...
+        </div>
+    </div>
+
+    <script>
+        // Check online status
+        function updateStatus() {
+            const status = document.getElementById('status');
+            if (navigator.onLine) {
+                status.textContent = '✓ Conexiune restabilită! Apăsați butonul pentru a continua.';
+                status.classList.add('online');
+            } else {
+                status.textContent = '✗ Offline - Vă rugăm verificați conexiunea';
+                status.classList.remove('online');
+            }
+        }
+
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+        updateStatus();
+
+        // Auto-reload when back online
+        window.addEventListener('online', () => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
