@@ -1,0 +1,251 @@
+/**
+ * Casa Ignat Design System - CSS Custom Properties
+ * Theme variables for consistent styling across the application
+ */
+
+:root {
+  /* ========================================
+     COLOR PALETTE
+     ======================================== */
+
+  /* Primary Colors */
+  --color-primary: #E0CBC3;
+  --color-primary-light: #EDE3DF;
+  --color-primary-dark: #D3B5AB;
+  --color-primary-rgb: 224, 203, 195;
+
+  /* Secondary Colors */
+  --color-secondary: #CAE0C3;
+  --color-secondary-light: #DFF0DB;
+  --color-secondary-dark: #B5D3AB;
+  --color-secondary-rgb: 202, 224, 195;
+
+  /* Tertiary Colors */
+  --color-tertiary: #C3D8E0;
+  --color-tertiary-light: #DBE9ED;
+  --color-tertiary-dark: #ABC6D3;
+  --color-tertiary-rgb: 195, 216, 224;
+
+  /* Accent Colors */
+  --color-accent: #DAC3E0;
+  --color-accent-light: #E9DBED;
+  --color-accent-dark: #CAABCD;
+  --color-accent-rgb: 218, 195, 224;
+
+  /* Neutral Colors */
+  --color-dark: #2C2C2C;
+  --color-gray-100: #F7F7F5;
+  --color-gray-200: #EFEFED;
+  --color-gray-300: #DCDCDA;
+  --color-gray-400: #B4B4B2;
+  --color-gray-500: #8C8C8A;
+  --color-gray-600: #646462;
+  --color-gray-700: #3C3C3A;
+  --color-white: #FFFFFF;
+  --color-off-white: #FAFAF8;
+
+  /* Semantic Colors */
+  --color-success: var(--color-secondary);
+  --color-success-light: var(--color-secondary-light);
+  --color-success-dark: var(--color-secondary-dark);
+
+  --color-info: var(--color-tertiary);
+  --color-info-light: var(--color-tertiary-light);
+  --color-info-dark: var(--color-tertiary-dark);
+
+  --color-warning: #F5D19A;
+  --color-warning-light: #FAEBD7;
+  --color-warning-dark: #E8B968;
+
+  --color-error: #E8A8A8;
+  --color-error-light: #F5D4D4;
+  --color-error-dark: #D88888;
+
+  /* Text Colors */
+  --color-text-primary: var(--color-dark);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-on-primary: var(--color-dark);
+  --color-text-on-dark: var(--color-white);
+
+  /* Background Colors */
+  --color-bg-primary: var(--color-off-white);
+  --color-bg-secondary: var(--color-white);
+  --color-bg-tertiary: var(--color-gray-100);
+
+  /* Border Colors */
+  --color-border-light: var(--color-gray-200);
+  --color-border-medium: var(--color-gray-300);
+  --color-border-dark: var(--color-gray-400);
+
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+
+  /* Font Families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-secondary: 'Merriweather', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Monaco', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --font-size-display: 3.5rem;    /* 56px */
+  --font-size-h1: 2.5rem;         /* 40px */
+  --font-size-h2: 2rem;           /* 32px */
+  --font-size-h3: 1.5rem;         /* 24px */
+  --font-size-h4: 1.25rem;        /* 20px */
+  --font-size-body: 1rem;         /* 16px */
+  --font-size-small: 0.875rem;    /* 14px */
+  --font-size-caption: 0.75rem;   /* 12px */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --line-height-loose: 2;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.05em;
+  --letter-spacing-wider: 0.1em;
+
+  /* ========================================
+     SPACING (8px grid system)
+     ======================================== */
+
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+  --spacing-4xl: 6rem;     /* 96px */
+
+  /* ========================================
+     BORDERS & RADIUS
+     ======================================== */
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  --border-radius-sm: 0.25rem;   /* 4px */
+  --border-radius-md: 0.5rem;    /* 8px */
+  --border-radius-lg: 0.75rem;   /* 12px */
+  --border-radius-xl: 1rem;      /* 16px */
+  --border-radius-2xl: 1.5rem;   /* 24px */
+  --border-radius-full: 9999px;
+
+  /* ========================================
+     SHADOWS
+     ======================================== */
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* Colored Shadows */
+  --shadow-primary: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
+  --shadow-secondary: 0 4px 12px rgba(var(--color-secondary-rgb), 0.3);
+  --shadow-accent: 0 4px 12px rgba(var(--color-accent-rgb), 0.3);
+
+  /* ========================================
+     TRANSITIONS & ANIMATIONS
+     ======================================== */
+
+  --transition-fast: 150ms;
+  --transition-base: 250ms;
+  --transition-slow: 350ms;
+
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --transition-all: all var(--transition-base) var(--transition-timing);
+  --transition-colors: color var(--transition-base) var(--transition-timing),
+                       background-color var(--transition-base) var(--transition-timing),
+                       border-color var(--transition-base) var(--transition-timing);
+  --transition-transform: transform var(--transition-base) var(--transition-timing);
+  --transition-opacity: opacity var(--transition-base) var(--transition-timing);
+
+  /* ========================================
+     Z-INDEX SCALE
+     ======================================== */
+
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  /* ========================================
+     BREAKPOINTS (for reference in media queries)
+     ======================================== */
+
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+
+  /* ========================================
+     CONTAINER WIDTHS
+     ======================================== */
+
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-2xl: 1320px;
+}
+
+/* ========================================
+   DARK MODE THEME (Optional)
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"],
+  :root[data-theme="dark"] {
+    /* Dark mode color overrides */
+    --color-bg-primary: #1A1A1A;
+    --color-bg-secondary: #2C2C2C;
+    --color-bg-tertiary: #3C3C3A;
+
+    --color-text-primary: var(--color-gray-100);
+    --color-text-secondary: var(--color-gray-300);
+    --color-text-muted: var(--color-gray-400);
+
+    --color-border-light: var(--color-gray-700);
+    --color-border-medium: var(--color-gray-600);
+    --color-border-dark: var(--color-gray-500);
+
+    /* Adjust primary colors for dark mode */
+    --color-primary: #D3B5AB;
+    --color-secondary: #B5D3AB;
+    --color-tertiary: #ABC6D3;
+    --color-accent: #CAABCD;
+  }
+}
+
+/* Force dark mode */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Force light mode */
+:root[data-theme="light"] {
+  color-scheme: light;
+}

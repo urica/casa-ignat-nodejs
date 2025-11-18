@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa Ignat - Design System Demo</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <!-- Skip to main content (Accessibility) -->
+  <a href="#main-content" class="skip-to-main">Sari la conținutul principal</a>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="/" class="navbar__brand">🏡 Casa Ignat</a>
+
+      <button class="navbar__toggle" aria-label="Meniu">
+        <span class="navbar__toggle-bar"></span>
+        <span class="navbar__toggle-bar"></span>
+        <span class="navbar__toggle-bar"></span>
+      </button>
+
+      <ul class="navbar__menu">
+        <li class="navbar__item">
+          <a href="#" class="navbar__link navbar__link--active">Acasă</a>
+        </li>
+        <li class="navbar__item">
+          <a href="#buttons" class="navbar__link">Butoane</a>
+        </li>
+        <li class="navbar__item">
+          <a href="#cards" class="navbar__link">Carduri</a>
+        </li>
+        <li class="navbar__item">
+          <a href="#forms" class="navbar__link">Formulare</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__background">
+      <div style="background: linear-gradient(135deg, #E0CBC3 0%, #DAC3E0 100%); width: 100%; height: 100%;"></div>
+    </div>
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <h1 class="hero__title">Casa Ignat Design System</h1>
+      <p class="hero__subtitle">Un sistem complet de componente UI pentru website-ul Casa Ignat</p>
+
+      <div class="hero__cta">
+        <a href="#components" class="btn btn--primary btn--lg">Explorează Componentele</a>
+        <a href="/css/README.md" class="btn btn--ghost btn--lg">Documentație</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Colors Section -->
+    <section class="section section--gray">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Paleta de Culori</h2>
+          <p class="section__subtitle">Culori armonioase inspirate de natură și tradiție</p>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <div class="card text-center">
+              <div class="p-3xl bg-primary"></div>
+              <div class="card__body">
+                <h4>Primary</h4>
+                <code>#E0CBC3</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="card text-center">
+              <div class="p-3xl bg-secondary"></div>
+              <div class="card__body">
+                <h4>Secondary</h4>
+                <code>#CAE0C3</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="card text-center">
+              <div class="p-3xl" style="background-color: #C3D8E0;"></div>
+              <div class="card__body">
+                <h4>Tertiary</h4>
+                <code>#C3D8E0</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="card text-center">
+              <div class="p-3xl bg-accent"></div>
+              <div class="card__body">
+                <h4>Accent</h4>
+                <code>#DAC3E0</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section class="section" id="typography">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Tipografie</h2>
+          <p class="section__subtitle">Scale tipografică consistentă și lizibilă</p>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h1 class="display mb-lg">Display Heading (56px)</h1>
+            <h1 class="h1 mb-lg">Heading 1 (40px)</h1>
+            <h2 class="h2 mb-lg">Heading 2 (32px)</h2>
+            <h3 class="h3 mb-lg">Heading 3 (24px)</h3>
+            <h4 class="h4 mb-lg">Heading 4 (20px)</h4>
+            <p class="lead mb-lg">Lead paragraph - text introductiv mai mare și mai vizibil (20px)</p>
+            <p class="mb-lg">Paragraph normal - Lorem ipsum dolor sit amet, consectetur adipiscing elit. (16px)</p>
+            <p class="text-small mb-lg">Small text - informații secundare și detalii (14px)</p>
+            <p class="text-caption">Caption text - foarte mic pentru note de subsol (12px)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="section section--gray" id="buttons">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Butoane</h2>
+          <p class="section__subtitle">Butoane interactive cu hover și focus states</p>
+        </div>
+
+        <div class="row mb-xl">
+          <div class="col-12">
+            <h3 class="h4 mb-lg">Variante de Butoane</h3>
+            <div class="d-flex gap-md flex-wrap">
+              <button class="btn btn--primary">Primary Button</button>
+              <button class="btn btn--secondary">Secondary Button</button>
+              <button class="btn btn--ghost">Ghost Button</button>
+              <button class="btn btn--accent">Accent Button</button>
+              <button class="btn btn--primary" disabled>Disabled Button</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-xl">
+          <div class="col-12">
+            <h3 class="h4 mb-lg">Dimensiuni</h3>
+            <div class="d-flex gap-md flex-wrap align-items-center">
+              <button class="btn btn--primary btn--sm">Small</button>
+              <button class="btn btn--primary">Normal</button>
+              <button class="btn btn--primary btn--lg">Large</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <h3 class="h4 mb-lg">Block Button</h3>
+            <button class="btn btn--primary btn--block">Full Width Button</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="section" id="cards">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Carduri</h2>
+          <p class="section__subtitle">Componente card pentru diverse utilizări</p>
+        </div>
+
+        <h3 class="h4 mb-lg">Service Cards</h3>
+        <div class="row mb-3xl">
+          <div class="col-12 col-md-4">
+            <div class="card card--service">
+              <div class="card__body">
+                <div class="card__icon">🏠</div>
+                <h3 class="card__title">Cazare</h3>
+                <p class="card__text">Camere confortabile și moderne, dotate cu toate facilitățile necesare.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card card--service">
+              <div class="card__body">
+                <div class="card__icon">🍽️</div>
+                <h3 class="card__title">Restaurant</h3>
+                <p class="card__text">Mâncare tradițională românească preparată cu ingrediente locale.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card card--service">
+              <div class="card__body">
+                <div class="card__icon">🎉</div>
+                <h3 class="card__title">Evenimente</h3>
+                <p class="card__text">Organizăm evenimente private: nunți, botezuri, aniversări.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h4 mb-lg">Testimonial Card</h3>
+        <div class="row mb-3xl">
+          <div class="col-12 col-md-8 mx-auto">
+            <div class="card card--testimonial">
+              <div class="card__body">
+                <p class="card__text">
+                  "Am petrecut un weekend minunat la Casa Ignat! Camerele sunt curate și confortabile,
+                  mâncarea delicioasă, iar gazdele foarte primitoare. Cu siguranță vom reveni!"
+                </p>
+                <div class="card--testimonial__author">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #E0CBC3; display: flex; align-items: center; justify-content: center; border: 2px solid white;">MP</div>
+                  <div>
+                    <div class="card--testimonial__name">Maria Popescu</div>
+                    <div class="card--testimonial__rating">★★★★★</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h4 mb-lg">Blog Cards</h3>
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="card card--blog">
+              <div class="card__image" style="background: linear-gradient(135deg, #E0CBC3, #CAE0C3);"></div>
+              <div class="card__body">
+                <span class="card__category">Evenimente</span>
+                <div class="card__meta">
+                  <span>📅 15 Nov 2024</span>
+                  <span>⏱️ 5 min</span>
+                </div>
+                <h3 class="card__title">Tradiții de toamnă</h3>
+                <p class="card__text">Descoperiți tradițiile de toamnă în zona noastră și participați la evenimente locale autentice.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card card--blog">
+              <div class="card__image" style="background: linear-gradient(135deg, #CAE0C3, #C3D8E0);"></div>
+              <div class="card__body">
+                <span class="card__category">Gastronomie</span>
+                <div class="card__meta">
+                  <span>📅 10 Nov 2024</span>
+                  <span>⏱️ 3 min</span>
+                </div>
+                <h3 class="card__title">Rețete tradiționale</h3>
+                <p class="card__text">Secretele bucătăriei tradiționale românești, transmise din generație în generație.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card card--blog">
+              <div class="card__image" style="background: linear-gradient(135deg, #C3D8E0, #DAC3E0);"></div>
+              <div class="card__body">
+                <span class="card__category">Turism</span>
+                <div class="card__meta">
+                  <span>📅 5 Nov 2024</span>
+                  <span>⏱️ 7 min</span>
+                </div>
+                <h3 class="card__title">Obiective turistice</h3>
+                <p class="card__text">Ghid complet al obiectivelor turistice din zonă pe care nu trebuie să le ratați.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forms Section -->
+    <section class="section section--gray" id="forms">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Formulare</h2>
+          <p class="section__subtitle">Formulare accesibile și ușor de utilizat</p>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-8 mx-auto">
+            <div class="card">
+              <div class="card__body">
+                <h3 class="card__title">Formular de Rezervare</h3>
+
+                <form>
+                  <div class="form-group">
+                    <label class="form-label form-label--required" for="name">Nume complet</label>
+                    <input type="text" id="name" class="form-control" placeholder="Introduceți numele">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label form-label--required" for="email">Email</label>
+                    <input type="email" id="email" class="form-control form-control--valid" placeholder="email@example.com" value="maria@example.com">
+                    <span class="form-feedback form-feedback--valid">✓ Email valid</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="phone">Telefon</label>
+                    <input type="tel" id="phone" class="form-control form-control--invalid" placeholder="07XX XXX XXX" value="123">
+                    <span class="form-feedback form-feedback--invalid">✗ Număr de telefon invalid</span>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label class="form-label" for="checkin">Check-in</label>
+                        <input type="date" id="checkin" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label class="form-label" for="checkout">Check-out</label>
+                        <input type="date" id="checkout" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="guests">Număr persoane</label>
+                    <select id="guests" class="form-control">
+                      <option>Selectați...</option>
+                      <option>1 persoană</option>
+                      <option>2 persoane</option>
+                      <option>3 persoane</option>
+                      <option>4+ persoane</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="message">Mesaj (opțional)</label>
+                    <textarea id="message" class="form-control" rows="4" placeholder="Cerințe speciale sau întrebări..."></textarea>
+                    <span class="form-text">Dacă aveți cerințe speciale, vă rugăm să le menționați aici.</span>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" id="terms" class="form-check__input">
+                    <label for="terms" class="form-check__label">
+                      Accept termenii și condițiile
+                    </label>
+                  </div>
+
+                  <div class="d-flex gap-md mt-xl">
+                    <button type="submit" class="btn btn--primary">Trimite Rezervare</button>
+                    <button type="reset" class="btn btn--ghost">Resetează</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts & Badges -->
+    <section class="section" id="alerts">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title">Alerts & Badges</h2>
+        </div>
+
+        <div class="row mb-xl">
+          <div class="col-12">
+            <h3 class="h4 mb-lg">Alerts</h3>
+
+            <div class="alert alert--success">
+              <div class="alert__title">Succes!</div>
+              <p class="alert__text">Rezervarea dumneavoastră a fost confirmată cu succes.</p>
+            </div>
+
+            <div class="alert alert--error">
+              <div class="alert__title">Eroare!</div>
+              <p class="alert__text">A apărut o problemă la procesarea cererii. Vă rugăm încercați din nou.</p>
+            </div>
+
+            <div class="alert alert--warning">
+              <div class="alert__title">Atenție!</div>
+              <p class="alert__text">Aveți doar 3 camere disponibile pentru perioada selectată.</p>
+            </div>
+
+            <div class="alert alert--info">
+              <div class="alert__title">Informație</div>
+              <p class="alert__text">Check-in este între orele 14:00 - 22:00.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h3 class="h4 mb-lg">Badges</h3>
+            <div class="d-flex gap-sm flex-wrap">
+              <span class="badge badge--primary">Nou</span>
+              <span class="badge badge--secondary">Disponibil</span>
+              <span class="badge badge--accent">Special</span>
+              <span class="badge badge--success">Confirmat</span>
+              <span class="badge badge--warning">În așteptare</span>
+              <span class="badge badge--error">Anulat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section">
+      <div class="container">
+        <div class="cta">
+          <div class="cta__content">
+            <h2 class="cta__title">Gata să rezervi?</h2>
+            <p class="cta__text">
+              Alege Casa Ignat pentru o experiență autentică românească.
+              Rezervă acum și bucură-te de cazare confortabilă și mâncare tradițională.
+            </p>
+            <button class="cta__button btn btn--lg">
+              Rezervă Camera Ta
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__grid">
+        <div>
+          <h4 class="footer__section-title">🏡 Casa Ignat</h4>
+          <p class="footer__text">
+            Pensiune și restaurant tradițional românesc, situat într-un cadru natural deosebit.
+          </p>
+
+          <div class="footer__social">
+            <a href="#" class="footer__social-link" aria-label="Facebook">FB</a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">IG</a>
+            <a href="#" class="footer__social-link" aria-label="TripAdvisor">TA</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer__section-title">Link-uri Rapide</h4>
+          <ul class="footer__list">
+            <li class="footer__list-item"><a href="/" class="footer__link">Acasă</a></li>
+            <li class="footer__list-item"><a href="/camere" class="footer__link">Camere</a></li>
+            <li class="footer__list-item"><a href="/restaurant" class="footer__link">Restaurant</a></li>
+            <li class="footer__list-item"><a href="/galerie" class="footer__link">Galerie</a></li>
+            <li class="footer__list-item"><a href="/contact" class="footer__link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__section-title">Contact</h4>
+          <ul class="footer__list">
+            <li class="footer__list-item">
+              <a href="tel:+40123456789" class="footer__link">📞 +40 123 456 789</a>
+            </li>
+            <li class="footer__list-item">
+              <a href="mailto:contact@casaignat.ro" class="footer__link">✉️ contact@casaignat.ro</a>
+            </li>
+            <li class="footer__list-item">
+              <span class="footer__text">📍 Str. Principală nr. 1, Localitatea, Județul</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__section-title">Newsletter</h4>
+          <p class="footer__text">Abonează-te pentru oferte speciale</p>
+
+          <div class="footer__newsletter">
+            <form class="footer__newsletter-form">
+              <input type="email" placeholder="Email" class="form-control footer__newsletter-input">
+              <button type="submit" class="btn btn--primary">Abonează-te</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2024 Casa Ignat. Toate drepturile rezervate. | Dezvoltat cu ❤️ pentru Casa Ignat</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation toggle
+    const navbarToggle = document.querySelector('.navbar__toggle');
+    const navbarMenu = document.querySelector('.navbar__menu');
+
+    if (navbarToggle) {
+      navbarToggle.addEventListener('click', () => {
+        navbarMenu.classList.toggle('navbar__menu--open');
+      });
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
