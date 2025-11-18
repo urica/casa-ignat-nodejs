@@ -8,9 +8,28 @@ const contactController = require('../controllers/contactController');
 const sitemapController = require('../controllers/sitemapController');
 const appointmentController = require('../controllers/appointmentController');
 const blogController = require('../controllers/blogController');
+const pagesController = require('../controllers/pagesController');
 
 // Home page
 router.get('/', homeController.index);
+
+// About pages
+router.get('/despre/echipa', pagesController.echipa);
+router.get('/despre/testimoniale', pagesController.testimoniale);
+router.get('/despre/misiune', pagesController.misiune);
+
+// Services pages
+router.get('/servicii/consultatii', pagesController.consultatii);
+router.get('/servicii/programe', pagesController.programe);
+router.get('/servicii/analize', pagesController.analize);
+
+// Special programs pages
+router.get('/programe/10-10', pagesController.program1010);
+router.get('/programe/nutri-junior', pagesController.nutriJunior);
+router.get('/programe/corporate', pagesController.corporate);
+
+// Booking/appointment page
+router.get('/programare', pagesController.programare);
 
 // Rooms
 router.get('/camere', roomsController.index);

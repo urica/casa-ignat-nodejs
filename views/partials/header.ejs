@@ -14,49 +14,16 @@
           </a>
         </li>
 
-        <!-- Despre Dropdown -->
-        <li class="navbar__item navbar__item--dropdown">
-          <a href="#" class="navbar__link">
+        <li class="navbar__item">
+          <a href="/despre/echipa" class="navbar__link <%= typeof page !== 'undefined' && page === 'despre' ? 'navbar__link--active' : '' %>">
             Despre
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor" style="margin-left: 4px;">
-              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
           </a>
-          <div class="navbar__dropdown">
-            <a href="/despre/echipa" class="navbar__dropdown-link">Echipa</a>
-            <a href="/despre/testimoniale" class="navbar__dropdown-link">Testimoniale</a>
-            <a href="/despre/misiune" class="navbar__dropdown-link">Misiune</a>
-          </div>
         </li>
 
-        <!-- Servicii Dropdown -->
-        <li class="navbar__item navbar__item--dropdown">
-          <a href="#" class="navbar__link">
+        <li class="navbar__item">
+          <a href="/servicii/consultatii" class="navbar__link <%= typeof page !== 'undefined' && page === 'servicii' ? 'navbar__link--active' : '' %>">
             Servicii
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor" style="margin-left: 4px;">
-              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
           </a>
-          <div class="navbar__dropdown">
-            <a href="/servicii/consultatii" class="navbar__dropdown-link">Consultații</a>
-            <a href="/servicii/programe" class="navbar__dropdown-link">Programe</a>
-            <a href="/servicii/analize" class="navbar__dropdown-link">Analize</a>
-          </div>
-        </li>
-
-        <!-- Programe Speciale Dropdown -->
-        <li class="navbar__item navbar__item--dropdown">
-          <a href="#" class="navbar__link">
-            Programe Speciale
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor" style="margin-left: 4px;">
-              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-          <div class="navbar__dropdown">
-            <a href="/programe/10-10" class="navbar__dropdown-link">Program 10-10</a>
-            <a href="/programe/nutri-junior" class="navbar__dropdown-link">Nutri-Junior</a>
-            <a href="/programe/corporate" class="navbar__dropdown-link">Corporate</a>
-          </div>
         </li>
 
         <li class="navbar__item">
@@ -73,8 +40,8 @@
 
         <!-- CTA Button -->
         <li class="navbar__item navbar__item--cta">
-          <a href="/programare" class="btn btn--accent">
-            Programează Consultație
+          <a href="/programare" class="btn btn--primary">
+            Programează
           </a>
         </li>
       </ul>
