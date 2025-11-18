@@ -1,0 +1,43 @@
+<%
+/**
+ * WebSite Schema Markup
+ * JSON-LD structured data pentru site (inclusiv Sitelinks Search Box)
+ *
+ * Variables optional:
+ * - settings: Obiect cu setări site
+ */
+
+const siteName = settings?.siteName || 'Casa Ignat';
+const siteUrl = settings?.siteUrl || 'https://casa-ignat.ro';
+const siteDescription = settings?.description || 'Cabinet profesional de nutriție și consultanță în alimentație sănătoasă';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}#website`,
+  name: siteName,
+  url: siteUrl,
+  description: siteDescription,
+
+  // Sitelinks Search Box
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/cautare?q={search_term_string}`
+    },
+    'query-input': 'required name=search_term_string'
+  },
+
+  // Publisher
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${siteUrl}#organization`,
+    name: siteName
+  }
+};
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

@@ -1,0 +1,31 @@
+<%
+/**
+ * FAQPage Schema Markup
+ * JSON-LD structured data pentru pagini FAQ
+ *
+ * Variables required:
+ * - faqs: Array de obiecte cu întrebări și răspunsuri [{question, answer}]
+ */
+
+if (typeof faqs === 'undefined' || !faqs || !Array.isArray(faqs) || faqs.length === 0) {
+  // Skip rendering if no FAQ data
+  return;
+}
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

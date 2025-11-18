@@ -1,0 +1,29 @@
+<%
+/**
+ * Breadcrumb Schema Markup
+ * JSON-LD structured data pentru breadcrumbs
+ *
+ * Variables required:
+ * - breadcrumbs: Array de obiecte [{name, url}]
+ */
+
+if (typeof breadcrumbs === 'undefined' || !breadcrumbs || !Array.isArray(breadcrumbs) || breadcrumbs.length === 0) {
+  // Skip rendering if no breadcrumb data
+  return;
+}
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.url
+  }))
+};
+%>
+
+<script type="application/ld+json">
+<%- JSON.stringify(schema, null, 0) %>
+</script>

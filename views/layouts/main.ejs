@@ -4,20 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Casa Ignat - Cabinet de nutriție și dietă personalizată condus de Dr. Anca Ignat. Transformă-ți sănătatea prin consultații nutriționale profesionale.' %>">
-  <meta name="keywords" content="nutriție, dietă, sănătate, consultații nutriționale, Dr. Anca Ignat">
-  <meta name="author" content="Casa Ignat">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="<%= title %>">
-  <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Transformă-ți sănătatea prin nutriție personalizată' %>">
+  <%
+  // Prepare SEO data
+  const baseUrl = (typeof settings !== 'undefined' && settings?.siteUrl) || 'https://casa-ignat.ro';
+  const currentUrl = `${baseUrl}${typeof req !== 'undefined' ? req.originalUrl.split('?')[0] : ''}`;
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:title" content="<%= title %>">
+  // SEO object with all necessary data
+  const seoData = typeof seo !== 'undefined' && seo ? seo : {
+    title: typeof title !== 'undefined' ? title : 'Casa Ignat - Cabinet de Nutriție',
+    description: typeof description !== 'undefined' ? description : 'Casa Ignat - Cabinet de nutriție și dietă personalizată. Transformă-ți sănătatea prin consultații nutriționale profesionale.',
+    keywords: typeof keywords !== 'undefined' ? keywords : 'nutriție, dietă, sănătate, consultații nutriționale',
+    type: typeof pageType !== 'undefined' ? pageType : 'website',
+    canonical: currentUrl
+  };
 
-  <title><%= title %></title>
+  // Make sure currentUrl is available for partials
+  if (typeof currentUrl === 'undefined') {
+    var currentUrl = baseUrl;
+  }
+  %>
+
+  <!-- SEO Meta Tags (from partial) -->
+  <%- include('../partials/seo/meta-tags', { seo: seoData, currentUrl: currentUrl }) %>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +38,31 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <!-- Structured Data - Organization & WebSite (Global) -->
+  <% if (typeof showOrganizationSchema === 'undefined' || showOrganizationSchema !== false) { %>
+    <%- include('../partials/seo/schema-organization', { settings: typeof settings !== 'undefined' ? settings : {} }) %>
+    <%- include('../partials/seo/schema-website', { settings: typeof settings !== 'undefined' ? settings : {} }) %>
+  <% } %>
+
+  <!-- Breadcrumb Schema (if breadcrumbs exist) -->
+  <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs && breadcrumbs.length > 0) { %>
+    <%- include('../partials/seo/schema-breadcrumb', { breadcrumbs: breadcrumbs }) %>
+  <% } %>
+
+  <!-- Page-specific schema (Blog Post, Person, Service, FAQ, etc.) -->
+  <% if (typeof schemaType !== 'undefined' && schemaType) { %>
+    <% if (schemaType === 'blogPost' && typeof post !== 'undefined') { %>
+      <%- include('../partials/seo/schema-blog-post', { post: post, settings: typeof settings !== 'undefined' ? settings : {} }) %>
+    <% } else if (schemaType === 'person' && typeof person !== 'undefined') { %>
+      <%- include('../partials/seo/schema-person', { person: person, settings: typeof settings !== 'undefined' ? settings : {} }) %>
+    <% } else if (schemaType === 'service' && typeof service !== 'undefined') { %>
+      <%- include('../partials/seo/schema-service', { service: service, settings: typeof settings !== 'undefined' ? settings : {} }) %>
+    <% } else if (schemaType === 'faq' && typeof faqs !== 'undefined') { %>
+      <%- include('../partials/seo/schema-faq', { faqs: faqs }) %>
+    <% } %>
+  <% } %>
 
   <!-- Additional head content -->
   <% if (typeof additionalHead !== 'undefined') { %>
@@ -38,6 +72,13 @@
 <body>
   <!-- Header -->
   <%- include('../partials/header') %>
+
+  <!-- Breadcrumbs (if exist) -->
+  <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs && breadcrumbs.length > 1) { %>
+    <div class="container">
+      <%- include('../partials/breadcrumbs', { breadcrumbs: breadcrumbs }) %>
+    </div>
+  <% } %>
 
   <!-- Main Content -->
   <main id="main-content">

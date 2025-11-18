@@ -55,6 +55,26 @@ const roomSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  seo: {
+    metaTitle: {
+      type: String,
+      maxlength: 60,
+      trim: true,
+    },
+    metaDescription: {
+      type: String,
+      maxlength: 160,
+      trim: true,
+    },
+    keywords: [{
+      type: String,
+      trim: true,
+    }],
+    ogImage: {
+      type: String,
+      trim: true,
+    },
+  },
 }, {
   timestamps: true,
 });
