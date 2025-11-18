@@ -1,0 +1,230 @@
+<%- include('../layouts/main', { content: `
+<style>
+.blog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.blog-header h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.blog-header p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}
+
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.blog-main {
+  min-width: 0;
+}
+
+.blog-filters {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.blog-filters h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #34495e;
+}
+
+.filter-group input,
+.filter-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.blog-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: #f0f0f0;
+}
+
+.blog-card-content {
+  padding: 1.5rem;
+}
+
+.blog-card-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #3498db;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+.blog-card-excerpt {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.blog-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #95a5a6;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 0.75rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.pagination a,
+.pagination span {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.pagination a:hover {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.pagination .current {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+@media (max-width: 968px) {
+  .blog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="blog-container">
+  <div class="blog-header">
+    <h1>Blog Nutriție</h1>
+    <p>Descoperă articole despre nutriție, rețete sănătoase și sfaturi practice</p>
+  </div>
+
+  <div class="blog-layout">
+    <div class="blog-main">
+      <% if (posts && posts.length > 0) { %>
+        <div class="blog-grid">
+          <% posts.forEach(post => { %>
+            <a href="/blog/<%= post.slug %>" class="blog-card">
+              <% if (post.featuredImage) { %>
+                <img src="<%= post.featuredImage %>" alt="<%= post.title %>" class="blog-card-image">
+              <% } else { %>
+                <div class="blog-card-image"></div>
+              <% } %>
+
+              <div class="blog-card-content">
+                <span class="blog-card-category"><%= post.category.replace(/-/g, ' ') %></span>
+                <h2 class="blog-card-title"><%= post.title %></h2>
+                <p class="blog-card-excerpt"><%= post.excerpt %></p>
+
+                <div class="blog-card-meta">
+                  <span>📖 <%= post.readingTime %> min citire</span>
+                  <span>👁️ <%= post.views %> vizualizări</span>
+                </div>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+
+        <!-- Pagination -->
+        <% if (pagination.totalPages > 1) { %>
+          <div class="pagination">
+            <% if (pagination.page > 1) { %>
+              <a href="?page=<%= pagination.page - 1 %><%= filters.category ? '&category=' + filters.category : '' %><%= filters.search ? '&search=' + filters.search : '' %>">« Înapoi</a>
+            <% } %>
+
+            <span class="current">Pagina <%= pagination.page %> din <%= pagination.totalPages %></span>
+
+            <% if (pagination.page < pagination.totalPages) { %>
+              <a href="?page=<%= pagination.page + 1 %><%= filters.category ? '&category=' + filters.category : '' %><%= filters.search ? '&search=' + filters.search : '' %>">Înainte »</a>
+            <% } %>
+          </div>
+        <% } %>
+      <% } else { %>
+        <p style="text-align: center; color: #7f8c8d;">Nu au fost găsite articole.</p>
+      <% } %>
+    </div>
+
+    <!-- Sidebar -->
+    <%- include('./partials/sidebar', { categories, popularPosts, tags, filters }) %>
+  </div>
+</div>
+` }) %>

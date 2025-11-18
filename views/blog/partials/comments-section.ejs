@@ -1,0 +1,257 @@
+<div class="comments-section">
+  <style>
+    .comments-section {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+    }
+
+    .comments-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+    }
+
+    .comment-form {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .submit-button {
+      padding: 0.75rem 2rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .submit-button:hover {
+      background: #2980b9;
+    }
+
+    .comments-list {
+      margin-top: 2rem;
+    }
+
+    .comment {
+      padding: 1.5rem;
+      border-left: 3px solid #3498db;
+      background: #f8f9fa;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .comment-date {
+      font-size: 0.85rem;
+      color: #95a5a6;
+    }
+
+    .comment-content {
+      color: #34495e;
+      line-height: 1.6;
+    }
+
+    .comment-reply {
+      margin-left: 2rem;
+      border-left-color: #95a5a6;
+      background: #ecf0f1;
+    }
+
+    .no-comments {
+      text-align: center;
+      color: #7f8c8d;
+      padding: 2rem;
+    }
+
+    .comment-status {
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .comment-status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .comment-status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+  </style>
+
+  <h2>💬 Comentarii (<%= comments?.length || 0 %>)</h2>
+
+  <% if (post.allowComments) { %>
+    <!-- Comment Form -->
+    <div class="comment-form">
+      <h3>Lasă un comentariu</h3>
+      <form id="commentForm">
+        <input type="hidden" name="postId" value="<%= post._id %>">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nume *</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="website">Website (opțional)</label>
+            <input type="url" id="website" name="website">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="content">Comentariu *</label>
+          <textarea id="content" name="content" required minlength="3" maxlength="2000"></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Trimite comentariu</button>
+
+        <div id="commentStatus" class="comment-status"></div>
+      </form>
+    </div>
+  <% } else { %>
+    <p class="no-comments">Comentariile sunt dezactivate pentru acest articol.</p>
+  <% } %>
+
+  <!-- Comments List -->
+  <% if (comments && comments.length > 0) { %>
+    <div class="comments-list">
+      <% comments.forEach(comment => { %>
+        <div class="comment">
+          <div class="comment-header">
+            <span class="comment-author">
+              <%= comment.author.name %>
+              <% if (comment.author.website) { %>
+                <a href="<%= comment.author.website %>" target="_blank" rel="nofollow">🔗</a>
+              <% } %>
+            </span>
+            <span class="comment-date">
+              <%= new Date(comment.createdAt).toLocaleDateString('ro-RO') %>
+            </span>
+          </div>
+          <div class="comment-content">
+            <%= comment.content %>
+          </div>
+
+          <!-- Replies -->
+          <% if (comment.replies && comment.replies.length > 0) { %>
+            <% comment.replies.forEach(reply => { %>
+              <div class="comment comment-reply">
+                <div class="comment-header">
+                  <span class="comment-author"><%= reply.author.name %></span>
+                  <span class="comment-date">
+                    <%= new Date(reply.createdAt).toLocaleDateString('ro-RO') %>
+                  </span>
+                </div>
+                <div class="comment-content">
+                  <%= reply.content %>
+                </div>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else if (post.allowComments) { %>
+    <p class="no-comments">Fii primul care lasă un comentariu!</p>
+  <% } %>
+
+  <script>
+    document.getElementById('commentForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      const statusDiv = document.getElementById('commentStatus');
+
+      try {
+        const response = await fetch('/blog/comment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          statusDiv.className = 'comment-status success';
+          statusDiv.textContent = result.message;
+          e.target.reset();
+        } else {
+          statusDiv.className = 'comment-status error';
+          statusDiv.textContent = result.message || 'A apărut o eroare';
+        }
+      } catch (error) {
+        statusDiv.className = 'comment-status error';
+        statusDiv.textContent = 'Eroare la trimiterea comentariului. Te rugăm să încerci din nou.';
+      }
+
+      setTimeout(() => {
+        statusDiv.className = 'comment-status';
+      }, 5000);
+    });
+  </script>
+</div>

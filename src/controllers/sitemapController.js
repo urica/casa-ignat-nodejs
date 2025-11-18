@@ -4,6 +4,7 @@
  */
 
 const BlogPost = require('../models/BlogPost');
+const BlogCategory = require('../models/BlogCategory');
 const Service = require('../models/Service');
 const Page = require('../models/Page');
 const TeamMember = require('../models/TeamMember');
@@ -17,8 +18,9 @@ exports.generateSitemap = async (req, res) => {
     const baseUrl = process.env.SITE_URL || `${req.protocol}://${req.get('host')}`;
 
     // Fetch all data needed for sitemap
-    const [blogPosts, services, pages, teamMembers, rooms] = await Promise.all([
+    const [blogPosts, blogCategories, services, pages, teamMembers, rooms] = await Promise.all([
       BlogPost.find({ status: 'published' }).select('slug updatedAt').lean(),
+      BlogCategory.find({ isActive: true }).select('slug updatedAt').lean(),
       Service.find({ available: true }).select('slug updatedAt').lean(),
       Page.find({ status: 'published' }).select('slug updatedAt').lean(),
       TeamMember.find({ available: true }).select('slug updatedAt').lean(),
@@ -54,6 +56,16 @@ exports.generateSitemap = async (req, res) => {
         lastmod: new Date().toISOString(),
         changefreq: 'weekly',
         priority: page.priority
+      });
+    });
+
+    // Blog categories - medium-high priority
+    blogCategories.forEach(category => {
+      urls.push({
+        loc: `${baseUrl}/blog/categorie/${category.slug}`,
+        lastmod: new Date(category.updatedAt).toISOString(),
+        changefreq: 'weekly',
+        priority: '0.7'
       });
     });
 

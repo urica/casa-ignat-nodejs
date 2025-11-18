@@ -1,0 +1,349 @@
+<%- include('../../layouts/main', { content: `
+<style>
+/* Include article styles */
+.article-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+.article-layout { display: grid; grid-template-columns: 1fr 350px; gap: 3rem; }
+.article-main { min-width: 0; }
+.article-header { margin-bottom: 2rem; }
+.article-category { display: inline-block; padding: 0.5rem 1rem; background: #27ae60; color: white; border-radius: 20px; font-size: 0.9rem; margin-bottom: 1rem; }
+.article-title { font-size: 2.5rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.2; }
+.article-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; color: #7f8c8d; font-size: 0.95rem; padding-bottom: 1rem; border-bottom: 2px solid #ecf0f1; }
+.article-featured-image { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin: 2rem 0; }
+.article-content { background: white; padding: 2rem; border-radius: 8px; line-height: 1.8; font-size: 1.1rem; color: #34495e; }
+
+.recipe-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.recipe-info-card {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.recipe-info-card .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-info-card .label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.recipe-info-card .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.recipe-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.recipe-section h2 {
+  color: #27ae60;
+  border-bottom: 2px solid #27ae60;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ingredients-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ingredients-list li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ecf0f1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.ingredients-list li:last-child {
+  border-bottom: none;
+}
+
+.ingredients-list input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ingredients-list label {
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ingredient-quantity {
+  font-weight: 600;
+  color: #27ae60;
+}
+
+.instructions-list {
+  counter-reset: step-counter;
+  list-style: none;
+  padding: 0;
+}
+
+.instructions-list li {
+  counter-increment: step-counter;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  border-left: 4px solid #27ae60;
+  border-radius: 4px;
+  position: relative;
+}
+
+.instructions-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: -20px;
+  top: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: #27ae60;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.instructions-list li img {
+  max-width: 100%;
+  margin-top: 1rem;
+  border-radius: 4px;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.nutrition-item {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.nutrition-item .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #27ae60;
+}
+
+.nutrition-item .label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-top: 0.25rem;
+}
+
+.print-button {
+  padding: 0.75rem 1.5rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 1rem 0;
+}
+
+.print-button:hover {
+  background: #2980b9;
+}
+
+@media (max-width: 968px) {
+  .article-layout { grid-template-columns: 1fr; }
+  .recipe-info-cards { grid-template-columns: repeat(2, 1fr); }
+  .instructions-list li { padding-left: 2rem; }
+  .instructions-list li::before { left: -15px; width: 30px; height: 30px; font-size: 1rem; }
+}
+
+@media print {
+  .blog-sidebar, .print-button, .article-share, .comments-section { display: none; }
+}
+</style>
+
+<div class="article-container">
+  <div class="article-layout">
+    <div class="article-main">
+      <article>
+        <div class="article-header">
+          <span class="article-category">🍽️ Rețetă</span>
+          <h1 class="article-title"><%= post.title %></h1>
+
+          <div class="article-meta">
+            <span>✍️ <%= post.author?.name || 'Admin' %></span>
+            <span>📅 <%= new Date(post.publishedAt).toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+            <span>👁️ <%= post.views %> vizualizări</span>
+          </div>
+        </div>
+
+        <% if (post.featuredImage) { %>
+          <img src="<%= post.featuredImage %>" alt="<%= post.title %>" class="article-featured-image">
+        <% } %>
+
+        <!-- Recipe Info Cards -->
+        <% if (post.recipeData) { %>
+          <div class="recipe-info-cards">
+            <% if (post.recipeData.prepTime) { %>
+              <div class="recipe-info-card">
+                <div class="icon">⏱️</div>
+                <div class="label">Timp Preparare</div>
+                <div class="value"><%= post.recipeData.prepTime %> min</div>
+              </div>
+            <% } %>
+            <% if (post.recipeData.cookTime) { %>
+              <div class="recipe-info-card">
+                <div class="icon">🔥</div>
+                <div class="label">Timp Gătit</div>
+                <div class="value"><%= post.recipeData.cookTime %> min</div>
+              </div>
+            <% } %>
+            <% if (post.recipeData.totalTime) { %>
+              <div class="recipe-info-card">
+                <div class="icon">⏰</div>
+                <div class="label">Timp Total</div>
+                <div class="value"><%= post.recipeData.totalTime %> min</div>
+              </div>
+            <% } %>
+            <% if (post.recipeData.servings) { %>
+              <div class="recipe-info-card">
+                <div class="icon">👥</div>
+                <div class="label">Porții</div>
+                <div class="value"><%= post.recipeData.servings %></div>
+              </div>
+            <% } %>
+            <% if (post.recipeData.difficulty) { %>
+              <div class="recipe-info-card">
+                <div class="icon">📊</div>
+                <div class="label">Dificultate</div>
+                <div class="value"><%= post.recipeData.difficulty %></div>
+              </div>
+            <% } %>
+          </div>
+
+          <button class="print-button" onclick="window.print()">🖨️ Printează Rețeta</button>
+
+          <!-- Ingredients -->
+          <% if (post.recipeData.ingredients && post.recipeData.ingredients.length > 0) { %>
+            <div class="recipe-section">
+              <h2>🥘 Ingrediente</h2>
+              <ul class="ingredients-list">
+                <% post.recipeData.ingredients.forEach((ingredient, index) => { %>
+                  <li>
+                    <input type="checkbox" id="ing-<%= index %>">
+                    <label for="ing-<%= index %>">
+                      <span class="ingredient-quantity"><%= ingredient.quantity %> <%= ingredient.unit %></span>
+                      <span><%= ingredient.item %></span>
+                    </label>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <!-- Instructions -->
+          <% if (post.recipeData.instructions && post.recipeData.instructions.length > 0) { %>
+            <div class="recipe-section">
+              <h2>👨‍🍳 Mod de Preparare</h2>
+              <ol class="instructions-list">
+                <% post.recipeData.instructions.forEach(instruction => { %>
+                  <li>
+                    <%= instruction.description %>
+                    <% if (instruction.image) { %>
+                      <img src="<%= instruction.image %>" alt="Pasul <%= instruction.step %>">
+                    <% } %>
+                  </li>
+                <% }) %>
+              </ol>
+            </div>
+          <% } %>
+
+          <!-- Nutrition -->
+          <% if (post.recipeData.nutrition) { %>
+            <div class="recipe-section">
+              <h2>📊 Valori Nutriționale (per porție)</h2>
+              <div class="nutrition-grid">
+                <% if (post.recipeData.nutrition.calories) { %>
+                  <div class="nutrition-item">
+                    <div class="value"><%= post.recipeData.nutrition.calories %></div>
+                    <div class="label">Calorii (kcal)</div>
+                  </div>
+                <% } %>
+                <% if (post.recipeData.nutrition.protein) { %>
+                  <div class="nutrition-item">
+                    <div class="value"><%= post.recipeData.nutrition.protein %>g</div>
+                    <div class="label">Proteine</div>
+                  </div>
+                <% } %>
+                <% if (post.recipeData.nutrition.carbs) { %>
+                  <div class="nutrition-item">
+                    <div class="value"><%= post.recipeData.nutrition.carbs %>g</div>
+                    <div class="label">Carbohidrați</div>
+                  </div>
+                <% } %>
+                <% if (post.recipeData.nutrition.fat) { %>
+                  <div class="nutrition-item">
+                    <div class="value"><%= post.recipeData.nutrition.fat %>g</div>
+                    <div class="label">Grăsimi</div>
+                  </div>
+                <% } %>
+                <% if (post.recipeData.nutrition.fiber) { %>
+                  <div class="nutrition-item">
+                    <div class="value"><%= post.recipeData.nutrition.fiber %>g</div>
+                    <div class="label">Fibre</div>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          <% } %>
+        <% } %>
+
+        <!-- Additional Content -->
+        <% if (post.content) { %>
+          <div class="article-content">
+            <%- post.content %>
+          </div>
+        <% } %>
+
+        <!-- Share -->
+        <div class="article-share" style="background: #ecf0f1; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+          <h3>Distribuie această rețetă</h3>
+          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(seo.canonicalUrl) %>"
+               target="_blank"
+               style="padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; color: white; font-weight: 500; background: #1877f2;">Facebook</a>
+            <a href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent(seo.canonicalUrl) %>&description=<%= encodeURIComponent(post.title) %>"
+               target="_blank"
+               style="padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; color: white; font-weight: 500; background: #E60023;">Pinterest</a>
+          </div>
+        </div>
+      </article>
+
+      <%- include('../partials/comments-section', { post, comments }) %>
+    </div>
+
+    <%- include('../partials/sidebar', { categories, popularPosts, tags: [], filters: {} }) %>
+  </div>
+</div>
+` }) %>
