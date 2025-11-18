@@ -1,0 +1,127 @@
+<aside class="admin-sidebar">
+    <div class="sidebar-header">
+        <a href="/admin" class="sidebar-logo">
+            <i class="fas fa-heart-pulse"></i>
+            <span>Casa Ignat</span>
+        </a>
+        <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="/admin" class="menu-link <%= currentPath === '/admin' ? 'active' : '' %>">
+                    <i class="fas fa-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-section">
+                <span class="section-title">Conținut</span>
+            </li>
+
+            <% if (user && user.hasPermission('blog')) { %>
+            <li class="menu-item">
+                <a href="/admin/blog" class="menu-link <%= currentPath?.startsWith('/admin/blog') ? 'active' : '' %>">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Articole Blog</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('pages')) { %>
+            <li class="menu-item">
+                <a href="/admin/pages" class="menu-link <%= currentPath?.startsWith('/admin/pages') ? 'active' : '' %>">
+                    <i class="fas fa-file"></i>
+                    <span>Pagini</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('services')) { %>
+            <li class="menu-item">
+                <a href="/admin/services" class="menu-link <%= currentPath?.startsWith('/admin/services') ? 'active' : '' %>">
+                    <i class="fas fa-hand-holding-medical"></i>
+                    <span>Servicii</span>
+                </a>
+            </li>
+            <% } %>
+
+            <li class="menu-section">
+                <span class="section-title">Management</span>
+            </li>
+
+            <% if (user && user.hasPermission('bookings')) { %>
+            <li class="menu-item">
+                <a href="/admin/bookings" class="menu-link <%= currentPath?.startsWith('/admin/bookings') ? 'active' : '' %>">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Programări</span>
+                    <% if (typeof newBookingsCount !== 'undefined' && newBookingsCount > 0) { %>
+                        <span class="badge badge-danger"><%= newBookingsCount %></span>
+                    <% } %>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('testimonials')) { %>
+            <li class="menu-item">
+                <a href="/admin/testimonials" class="menu-link <%= currentPath?.startsWith('/admin/testimonials') ? 'active' : '' %>">
+                    <i class="fas fa-star"></i>
+                    <span>Testimoniale</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('team')) { %>
+            <li class="menu-item">
+                <a href="/admin/team" class="menu-link <%= currentPath?.startsWith('/admin/team') ? 'active' : '' %>">
+                    <i class="fas fa-users"></i>
+                    <span>Echipa</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('media')) { %>
+            <li class="menu-item">
+                <a href="/admin/media" class="menu-link <%= currentPath?.startsWith('/admin/media') ? 'active' : '' %>">
+                    <i class="fas fa-images"></i>
+                    <span>Media</span>
+                </a>
+            </li>
+            <% } %>
+
+            <li class="menu-section">
+                <span class="section-title">Sistem</span>
+            </li>
+
+            <% if (user && user.hasPermission('settings')) { %>
+            <li class="menu-item">
+                <a href="/admin/settings" class="menu-link <%= currentPath?.startsWith('/admin/settings') ? 'active' : '' %>">
+                    <i class="fas fa-cog"></i>
+                    <span>Setări</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.hasPermission('users')) { %>
+            <li class="menu-item">
+                <a href="/admin/users" class="menu-link <%= currentPath?.startsWith('/admin/users') ? 'active' : '' %>">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Utilizatori</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if (user && user.role === 'admin') { %>
+            <li class="menu-item">
+                <a href="/admin/audit" class="menu-link <%= currentPath?.startsWith('/admin/audit') ? 'active' : '' %>">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Audit Log</span>
+                </a>
+            </li>
+            <% } %>
+        </ul>
+    </nav>
+</aside>

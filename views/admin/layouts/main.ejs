@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Casa Ignat CMS</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="/admin/css/admin.css">
+
+    <% if (typeof additionalCSS !== 'undefined') { %>
+        <%- additionalCSS %>
+    <% } %>
+</head>
+<body class="admin-body">
+    <%- include('../partials/sidebar') %>
+
+    <div class="admin-main">
+        <%- include('../partials/header') %>
+
+        <main class="admin-content">
+            <%- include('../partials/flash') %>
+
+            <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs.length > 0) { %>
+                <%- include('../partials/breadcrumbs', { breadcrumbs }) %>
+            <% } %>
+
+            <%- body %>
+        </main>
+
+        <%- include('../partials/footer') %>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="/admin/js/admin.js"></script>
+
+    <% if (typeof additionalJS !== 'undefined') { %>
+        <%- additionalJS %>
+    <% } %>
+</body>
+</html>

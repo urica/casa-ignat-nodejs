@@ -1,0 +1,19 @@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/admin">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <% breadcrumbs.forEach((crumb, index) => { %>
+            <li class="breadcrumb-item <%= index === breadcrumbs.length - 1 ? 'active' : '' %>">
+                <% if (index === breadcrumbs.length - 1) { %>
+                    <span><%= crumb.label %></span>
+                <% } else { %>
+                    <a href="<%= crumb.url %>"><%= crumb.label %></a>
+                <% } %>
+            </li>
+        <% }); %>
+    </ol>
+</nav>
