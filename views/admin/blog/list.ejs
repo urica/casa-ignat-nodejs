@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ro">
+<%
+  const body = `
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Articole Blog</h3>
+            <div>
+                <a href="/admin/blog/create" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Articol Nou
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form method="GET" action="/admin/blog" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <input type="text" name="search" placeholder="Caută..." class="form-control" value="${filters.search}" style="max-width: 300px;">
+                <select name="status" class="form-control" style="max-width: 200px;">
+                    <option value="">Toate statusurile</option>
+                    <option value="draft" ${filters.status === 'draft' ? 'selected' : ''}>Draft</option>
+                    <option value="published" ${filters.status === 'published' ? 'selected' : ''}>Publicat</option>
+                    <option value="scheduled" ${filters.status === 'scheduled' ? 'selected' : ''}>Programat</option>
+                    <option value="archived" ${filters.status === 'archived' ? 'selected' : ''}>Arhivat</option>
+                </select>
+                <select name="category" class="form-control" style="max-width: 200px;">
+                    <option value="">Toate categoriile</option>
+                    <option value="nutritie" ${filters.category === 'nutritie' ? 'selected' : ''}>Nutriție</option>
+                    <option value="retete" ${filters.category === 'retete' ? 'selected' : ''}>Rețete</option>
+                    <option value="sanatate" ${filters.category === 'sanatate' ? 'selected' : ''}>Sănătate</option>
+                    <option value="lifestyle" ${filters.category === 'lifestyle' ? 'selected' : ''}>Lifestyle</option>
+                    <option value="sfaturi" ${filters.category === 'sfaturi' ? 'selected' : ''}>Sfaturi</option>
+                </select>
+                <button type="submit" class="btn btn-secondary">Filtrează</button>
+                <a href="/admin/blog" class="btn btn-outline-secondary">Reset</a>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Titlu</th>
+                            <th>Autor</th>
+                            <th>Categorie</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                            <th>Vizualizări</th>
+                            <th>Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (posts.length === 0) { %>
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 2rem; color: var(--gray);">
+                                    Nu există articole
+                                </td>
+                            </tr>
+                        <% } else { %>
+                            <% posts.forEach(post => { %>
+                                <tr>
+                                    <td>
+                                        <strong>${post.title}</strong>
+                                        <% if (post.featured) { %>
+                                            <span style="color: var(--warning); margin-left: 0.5rem;" title="Articol destacat">
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td>${post.author ? post.author.name : 'N/A'}</td>
+                                    <td>
+                                        <span style="padding: 0.25rem 0.5rem; background: var(--light); border-radius: 0.25rem; font-size: 0.875rem;">
+                                            ${post.category}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (post.status === 'published') { %>
+                                            <span style="color: var(--success);">Publicat</span>
+                                        <% } else if (post.status === 'draft') { %>
+                                            <span style="color: var(--gray);">Draft</span>
+                                        <% } else if (post.status === 'scheduled') { %>
+                                            <span style="color: var(--info);">Programat</span>
+                                        <% } else { %>
+                                            <span style="color: var(--warning);">Arhivat</span>
+                                        <% } %>
+                                    </td>
+                                    <td style="font-size: 0.875rem;">
+                                        ${helpers.formatDate(post.publishedAt || post.createdAt)}
+                                    </td>
+                                    <td>${post.views}</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <a href="/admin/blog/edit/${post._id}" class="btn btn-sm btn-outline-primary" title="Editează">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button onclick="deletePost('${post._id}')" class="btn btn-sm btn-danger" title="Șterge">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <% if (pagination.totalPages > 1) { %>
+                <div style="display: flex; justify-content: center; margin-top: 1.5rem; gap: 0.5rem;">
+                    <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+                        <a href="?page=${i}&search=${filters.search}&status=${filters.status}&category=${filters.category}"
+                           class="btn btn-sm ${i === pagination.page ? 'btn-primary' : 'btn-outline-primary'}">
+                            ${i}
+                        </a>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        async function deletePost(id) {
+            if (!confirm('Sigur doriți să ștergeți acest articol?')) return;
+
+            try {
+                const response = await fetch('/admin/blog/' + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-Token': '${csrfToken}',
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Eroare: ' + data.message);
+                }
+            } catch (error) {
+                alert('Eroare la ștergerea articolului');
+            }
+        }
+    </script>
+  `;
+%>
+<%- include('../layouts/main', { body, currentPath: '/admin/blog', breadcrumbs: [{ label: 'Blog', url: '/admin/blog' }] }) %>
+</html>

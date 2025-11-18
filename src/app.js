@@ -10,9 +10,11 @@ const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
+const flash = require('connect-flash');
 
 const config = require('../config/app');
 const { ensureUploadDirs } = require('../config/upload');
+const csrfMiddleware = require('./middleware/csrf');
 
 const app = express();
 
@@ -82,6 +84,12 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
+// Flash messages
+app.use(flash());
+
+// CSRF protection for admin routes
+app.use('/admin', csrfMiddleware.addToken);
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: config.rateLimit.windowMs,
@@ -99,11 +107,16 @@ app.use(express.static(path.join(__dirname, '../public'), {
   etag: true,
 }));
 
-// Make config available in views
+// Make config and helpers available in views
 app.use((req, res, next) => {
   res.locals.config = config;
   res.locals.currentYear = new Date().getFullYear();
   res.locals.user = req.session.user || null;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  res.locals.warning = req.flash('warning');
+  res.locals.info = req.flash('info');
+  res.locals.helpers = require('./utils/helpers');
   next();
 });
 

@@ -1,0 +1,55 @@
+<% if (success && success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="alert-close" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-check-circle"></i>
+        <div class="alert-content">
+            <% success.forEach(msg => { %>
+                <p><%= msg %></p>
+            <% }); %>
+        </div>
+    </div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="alert-close" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-exclamation-circle"></i>
+        <div class="alert-content">
+            <% error.forEach(msg => { %>
+                <p><%= msg %></p>
+            <% }); %>
+        </div>
+    </div>
+<% } %>
+
+<% if (warning && warning.length > 0) { %>
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="alert-close" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-exclamation-triangle"></i>
+        <div class="alert-content">
+            <% warning.forEach(msg => { %>
+                <p><%= msg %></p>
+            <% }); %>
+        </div>
+    </div>
+<% } %>
+
+<% if (info && info.length > 0) { %>
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="alert-close" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-info-circle"></i>
+        <div class="alert-content">
+            <% info.forEach(msg => { %>
+                <p><%= msg %></p>
+            <% }); %>
+        </div>
+    </div>
+<% } %>

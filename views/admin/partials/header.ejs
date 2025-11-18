@@ -1,0 +1,53 @@
+<header class="admin-header">
+    <div class="header-left">
+        <button class="sidebar-toggle-mobile" aria-label="Toggle Sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="page-title"><%= title %></h1>
+    </div>
+
+    <div class="header-right">
+        <a href="/" target="_blank" class="header-btn" title="Vezi site-ul">
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+
+        <div class="user-menu">
+            <button class="user-menu-toggle" aria-label="User Menu">
+                <% if (user.avatar) { %>
+                    <img src="<%= user.avatar %>" alt="<%= user.name %>" class="user-avatar">
+                <% } else { %>
+                    <div class="user-avatar-placeholder">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                <% } %>
+                <span class="user-name"><%= user.name %></span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+
+            <div class="user-menu-dropdown">
+                <div class="user-info">
+                    <div class="user-name-full"><%= user.name %></div>
+                    <div class="user-email"><%= user.email %></div>
+                    <div class="user-role"><%= user.role %></div>
+                </div>
+                <hr>
+                <a href="/admin/profile" class="dropdown-item">
+                    <i class="fas fa-user"></i>
+                    Profilul Meu
+                </a>
+                <a href="/admin/security" class="dropdown-item">
+                    <i class="fas fa-shield-alt"></i>
+                    Securitate
+                </a>
+                <hr>
+                <form action="/admin/logout" method="POST" style="margin: 0;">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Deconectare
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
