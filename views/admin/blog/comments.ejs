@@ -1,0 +1,357 @@
+<%- include('../../admin/layouts/main', { content: `
+<style>
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.comments-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.comments-filters select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.comments-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.comments-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comments-table th {
+  background: #f8f9fa;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.comments-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.comment-content {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment-meta {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-spam {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-rejected {
+  background: #f0f0f0;
+  color: #6c757d;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.btn-approve {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-reject {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-spam {
+  background: #e67e22;
+  color: white;
+}
+
+.btn-delete {
+  background: #95a5a6;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.8;
+}
+
+.spam-score {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.spam-indicator {
+  width: 50px;
+  height: 6px;
+  background: #ecf0f1;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.spam-bar {
+  height: 100%;
+  background: #e74c3c;
+  transition: width 0.3s;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination a,
+.pagination span {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.pagination a:hover {
+  background: #f8f9fa;
+}
+
+.pagination .current {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+</style>
+
+<div class="comments-header">
+  <div>
+    <h1>Comentarii Blog</h1>
+    <p>Gestionează comentariile de la articole</p>
+  </div>
+</div>
+
+<div class="comments-filters">
+  <select id="statusFilter" onchange="filterComments(this.value)">
+    <option value="">Toate statusurile</option>
+    <option value="pending" <%= filters.status === 'pending' ? 'selected' : '' %>>În așteptare</option>
+    <option value="approved" <%= filters.status === 'approved' ? 'selected' : '' %>>Aprobate</option>
+    <option value="spam" <%= filters.status === 'spam' ? 'selected' : '' %>>Spam</option>
+    <option value="rejected" <%= filters.status === 'rejected' ? 'selected' : '' %>>Respinse</option>
+  </select>
+</div>
+
+<div class="comments-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Autor</th>
+        <th>Comentariu</th>
+        <th>Articol</th>
+        <th>Status</th>
+        <th>Spam Score</th>
+        <th>Data</th>
+        <th>Acțiuni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (comments && comments.length > 0) { %>
+        <% comments.forEach(comment => { %>
+          <tr>
+            <td>
+              <strong><%= comment.author.name %></strong>
+              <div class="comment-meta">
+                <%= comment.author.email %>
+                <% if (comment.author.website) { %>
+                  <br><a href="<%= comment.author.website %>" target="_blank" rel="nofollow">🔗 Website</a>
+                <% } %>
+              </div>
+            </td>
+            <td>
+              <div class="comment-content" title="<%= comment.content %>">
+                <%= comment.content %>
+              </div>
+              <div class="comment-meta">
+                IP: <%= comment.ipAddress || 'N/A' %>
+              </div>
+            </td>
+            <td>
+              <% if (comment.post) { %>
+                <a href="/blog/<%= comment.post.slug %>" target="_blank">
+                  <%= comment.post.title %>
+                </a>
+              <% } else { %>
+                <span class="comment-meta">Articol șters</span>
+              <% } %>
+            </td>
+            <td>
+              <span class="status-badge status-<%= comment.status %>">
+                <%= comment.status %>
+              </span>
+            </td>
+            <td>
+              <div class="spam-score">
+                <%= comment.spamScore || 0 %>
+                <div class="spam-indicator">
+                  <div class="spam-bar" style="width: <%= Math.min(comment.spamScore || 0, 100) %>%"></div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="comment-meta">
+                <%= new Date(comment.createdAt).toLocaleDateString('ro-RO') %>
+                <br>
+                <%= new Date(comment.createdAt).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' }) %>
+              </div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <% if (comment.status !== 'approved') { %>
+                  <button class="action-btn btn-approve" onclick="moderateComment('<%= comment._id %>', 'approved')">
+                    ✓ Aprobă
+                  </button>
+                <% } %>
+                <% if (comment.status !== 'spam') { %>
+                  <button class="action-btn btn-spam" onclick="moderateComment('<%= comment._id %>', 'spam')">
+                    ⚠️ Spam
+                  </button>
+                <% } %>
+                <% if (comment.status !== 'rejected') { %>
+                  <button class="action-btn btn-reject" onclick="moderateComment('<%= comment._id %>', 'rejected')">
+                    ✗ Respinge
+                  </button>
+                <% } %>
+                <button class="action-btn btn-delete" onclick="deleteComment('<%= comment._id %>')">
+                  🗑️ Șterge
+                </button>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 3rem; color: #7f8c8d;">
+            Nu există comentarii.
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<% if (pagination.totalPages > 1) { %>
+  <div class="pagination">
+    <% if (pagination.page > 1) { %>
+      <a href="?page=<%= pagination.page - 1 %><%= filters.status ? '&status=' + filters.status : '' %>">« Înapoi</a>
+    <% } %>
+
+    <span class="current">Pagina <%= pagination.page %> din <%= pagination.totalPages %></span>
+
+    <% if (pagination.page < pagination.totalPages) { %>
+      <a href="?page=<%= pagination.page + 1 %><%= filters.status ? '&status=' + filters.status : '' %>">Înainte »</a>
+    <% } %>
+  </div>
+<% } %>
+
+<script>
+function filterComments(status) {
+  window.location.href = '/admin/blog/comments' + (status ? '?status=' + status : '');
+}
+
+async function moderateComment(id, status) {
+  if (!confirm('Ești sigur că vrei să schimbi statusul acestui comentariu?')) return;
+
+  try {
+    const response = await fetch(\`/admin/blog/comments/\${id}/moderate\`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': '<%= csrfToken %>',
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Eroare: ' + result.message);
+    }
+  } catch (error) {
+    alert('Eroare la moderarea comentariului');
+  }
+}
+
+async function deleteComment(id) {
+  if (!confirm('Ești sigur că vrei să ștergi acest comentariu? Această acțiune este permanentă.')) return;
+
+  try {
+    const response = await fetch(\`/admin/blog/comments/\${id}\`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': '<%= csrfToken %>',
+      },
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      location.reload();
+    } else {
+      alert('Eroare: ' + result.message);
+    }
+  } catch (error) {
+    alert('Eroare la ștergerea comentariului');
+  }
+}
+</script>
+` }) %>

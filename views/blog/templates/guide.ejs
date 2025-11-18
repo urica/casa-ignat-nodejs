@@ -1,0 +1,326 @@
+<%- include('../../layouts/main', { content: `
+<style>
+.article-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+.article-layout { display: grid; grid-template-columns: 1fr 350px; gap: 3rem; }
+.article-main { min-width: 0; }
+.article-header { margin-bottom: 2rem; }
+.article-category { display: inline-block; padding: 0.5rem 1rem; background: #e67e22; color: white; border-radius: 20px; font-size: 0.9rem; margin-bottom: 1rem; }
+.article-title { font-size: 2.5rem; color: #2c3e50; margin-bottom: 1rem; line-height: 1.2; }
+.article-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; color: #7f8c8d; font-size: 0.95rem; padding-bottom: 1rem; border-bottom: 2px solid #ecf0f1; }
+.article-featured-image { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin: 2rem 0; }
+.article-content { background: white; padding: 2rem; border-radius: 8px; line-height: 1.8; font-size: 1.1rem; color: #34495e; }
+
+.table-of-contents {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #e67e22;
+  margin: 2rem 0;
+}
+
+.table-of-contents h2 {
+  color: #e67e22;
+  margin-bottom: 1rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+}
+
+.toc-list li {
+  margin-bottom: 0.75rem;
+}
+
+.toc-list a {
+  color: #2c3e50;
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.toc-list a:hover {
+  background: white;
+  color: #e67e22;
+}
+
+.toc-list .level-1 {
+  font-weight: 600;
+}
+
+.toc-list .level-2 {
+  padding-left: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.toc-list .level-3 {
+  padding-left: 3rem;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.guide-section {
+  background: white;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.section-header {
+  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+  color: white;
+  padding: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.section-toggle {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.section-content {
+  padding: 2rem;
+  display: block;
+}
+
+.section-content.collapsed {
+  display: none;
+}
+
+.section-header.expanded .section-toggle {
+  transform: rotate(180deg);
+}
+
+.infographic {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.infographic img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.downloadable-files {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.downloadable-files h3 {
+  color: #e67e22;
+  margin-bottom: 1.5rem;
+}
+
+.file-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.file-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.file-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.file-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.file-meta {
+  font-size: 0.8rem;
+  color: #95a5a6;
+  margin-top: 0.25rem;
+}
+
+.download-button {
+  padding: 0.75rem 1.5rem;
+  background: #e67e22;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.3s;
+}
+
+.download-button:hover {
+  background: #d35400;
+}
+
+.key-takeaway {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.key-takeaway h4 {
+  color: #856404;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 968px) {
+  .article-layout { grid-template-columns: 1fr; }
+  .file-item { flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .download-button { width: 100%; text-align: center; }
+}
+</style>
+
+<div class="article-container">
+  <div class="article-layout">
+    <div class="article-main">
+      <article>
+        <div class="article-header">
+          <span class="article-category">📚 Ghid Nutrițional</span>
+          <h1 class="article-title"><%= post.title %></h1>
+
+          <div class="article-meta">
+            <span>✍️ <%= post.author?.name || 'Admin' %></span>
+            <span>📅 <%= new Date(post.publishedAt).toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+            <span>📖 <%= post.readingTime %> min citire</span>
+            <span>👁️ <%= post.views %> vizualizări</span>
+          </div>
+        </div>
+
+        <% if (post.featuredImage) { %>
+          <img src="<%= post.featuredImage %>" alt="<%= post.title %>" class="article-featured-image">
+        <% } %>
+
+        <% if (post.excerpt) { %>
+          <div class="key-takeaway">
+            <h4>💡 Pe scurt</h4>
+            <p><%= post.excerpt %></p>
+          </div>
+        <% } %>
+
+        <!-- Table of Contents -->
+        <% if (post.guideData && post.guideData.tableOfContents && post.guideData.tableOfContents.length > 0) { %>
+          <div class="table-of-contents">
+            <h2>📋 Cuprins</h2>
+            <ul class="toc-list">
+              <% post.guideData.tableOfContents.forEach(item => { %>
+                <li>
+                  <a href="#<%= item.anchor %>" class="level-<%= item.level || 1 %>">
+                    <%= item.title %>
+                  </a>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <!-- Guide Sections -->
+        <% if (post.guideData && post.guideData.sections && post.guideData.sections.length > 0) { %>
+          <div class="guide-sections">
+            <% post.guideData.sections.forEach((section, index) => { %>
+              <div class="guide-section">
+                <div class="section-header <%= section.isExpandable ? '' : 'expanded' %>"
+                     onclick="<%= section.isExpandable ? 'toggleSection(this)' : '' %>">
+                  <h3 id="section-<%= index %>"><%= section.title %></h3>
+                  <% if (section.isExpandable) { %>
+                    <span class="section-toggle">▼</span>
+                  <% } %>
+                </div>
+                <div class="section-content <%= section.isExpandable ? 'collapsed' : '' %>">
+                  <%- section.content %>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <!-- Main Content -->
+        <% if (post.content) { %>
+          <div class="article-content">
+            <%- post.content %>
+          </div>
+        <% } %>
+
+        <!-- Infographics -->
+        <% if (post.guideData && post.guideData.infographics && post.guideData.infographics.length > 0) { %>
+          <div class="infographics-section">
+            <h2 style="color: #e67e22; margin-bottom: 2rem;">📊 Infografice</h2>
+            <% post.guideData.infographics.forEach(infographic => { %>
+              <div class="infographic">
+                <img src="<%= infographic %>" alt="Infografic">
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <!-- Downloadable Files -->
+        <% if (post.guideData && post.guideData.downloadableFiles && post.guideData.downloadableFiles.length > 0) { %>
+          <div class="downloadable-files">
+            <h3>📥 Materiale Descărcabile</h3>
+            <div class="file-list">
+              <% post.guideData.downloadableFiles.forEach(file => { %>
+                <div class="file-item">
+                  <div class="file-info">
+                    <h4><%= file.title %></h4>
+                    <p><%= file.description %></p>
+                    <div class="file-meta">
+                      <%= file.fileType %> • <%= file.fileSize %>
+                    </div>
+                  </div>
+                  <a href="<%= file.fileUrl %>" class="download-button" download>
+                    ⬇️ Descarcă
+                  </a>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <div class="article-share" style="background: #ecf0f1; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+          <h3>Distribuie acest ghid</h3>
+          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(seo.canonicalUrl) %>"
+               target="_blank"
+               style="padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; color: white; font-weight: 500; background: #1877f2;">Facebook</a>
+          </div>
+        </div>
+      </article>
+
+      <%- include('../partials/comments-section', { post, comments }) %>
+    </div>
+
+    <%- include('../partials/sidebar', { categories, popularPosts, tags: [], filters: {} }) %>
+  </div>
+</div>
+
+<script>
+function toggleSection(header) {
+  header.classList.toggle('expanded');
+  const content = header.nextElementSibling;
+  content.classList.toggle('collapsed');
+}
+</script>
+` }) %>

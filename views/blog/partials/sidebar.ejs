@@ -1,0 +1,271 @@
+<aside class="blog-sidebar">
+  <style>
+    .blog-sidebar {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .sidebar-widget {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .sidebar-widget h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .search-box button {
+      padding: 0.5rem 1rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background: #2980b9;
+    }
+
+    .category-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .category-list li {
+      margin-bottom: 0.75rem;
+    }
+
+    .category-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #2c3e50;
+      transition: background 0.3s;
+    }
+
+    .category-list a:hover {
+      background: #f8f9fa;
+    }
+
+    .category-list .badge {
+      background: #ecf0f1;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+    }
+
+    .popular-post {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ecf0f1;
+    }
+
+    .popular-post:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .popular-post-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .popular-post-content h4 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      line-height: 1.4;
+    }
+
+    .popular-post-content h4 a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+
+    .popular-post-content h4 a:hover {
+      color: #3498db;
+    }
+
+    .popular-post-meta {
+      font-size: 0.8rem;
+      color: #95a5a6;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag-cloud a {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      background: #ecf0f1;
+      color: #2c3e50;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .tag-cloud a:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .newsletter-form input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .newsletter-form button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .newsletter-form button:hover {
+      background: #229954;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #ecf0f1;
+      color: #2c3e50;
+      text-decoration: none;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background: #3498db;
+      color: white;
+    }
+  </style>
+
+  <!-- Search Widget -->
+  <div class="sidebar-widget">
+    <h3>🔍 Caută</h3>
+    <form action="/blog" method="GET" class="search-box">
+      <input type="text" name="search" placeholder="Caută articole..." value="<%= filters?.search || '' %>">
+      <button type="submit">Caută</button>
+    </form>
+  </div>
+
+  <!-- Categories Widget -->
+  <% if (categories && categories.length > 0) { %>
+    <div class="sidebar-widget">
+      <h3>📁 Categorii</h3>
+      <ul class="category-list">
+        <% categories.forEach(cat => { %>
+          <li>
+            <a href="/blog/categorie/<%= cat.slug %>">
+              <span><%= cat.icon || '📌' %> <%= cat.name %></span>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <!-- Popular Posts Widget -->
+  <% if (popularPosts && popularPosts.length > 0) { %>
+    <div class="sidebar-widget">
+      <h3>🔥 Articole Populare</h3>
+      <% popularPosts.forEach(post => { %>
+        <div class="popular-post">
+          <% if (post.featuredImage) { %>
+            <img src="<%= post.featuredImage %>" alt="<%= post.title %>" class="popular-post-image">
+          <% } %>
+          <div class="popular-post-content">
+            <h4><a href="/blog/<%= post.slug %>"><%= post.title %></a></h4>
+            <div class="popular-post-meta">
+              👁️ <%= post.views %> vizualizări
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <!-- Tags Widget -->
+  <% if (tags && tags.length > 0) { %>
+    <div class="sidebar-widget">
+      <h3>🏷️ Etichete</h3>
+      <div class="tag-cloud">
+        <% tags.forEach(tag => { %>
+          <a href="/blog?tag=<%= tag._id %>"><%= tag._id %></a>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Newsletter Widget -->
+  <div class="sidebar-widget">
+    <h3>📧 Newsletter</h3>
+    <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 1rem;">
+      Abonează-te pentru a primi cele mai noi articole despre nutriție.
+    </p>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Funcționalitate în dezvoltare!');">
+      <input type="email" placeholder="Email-ul tău" required>
+      <button type="submit">Abonează-te</button>
+    </form>
+  </div>
+
+  <!-- Social Media Widget -->
+  <div class="sidebar-widget">
+    <h3>👥 Urmărește-ne</h3>
+    <div class="social-links">
+      <a href="#" title="Facebook">📘</a>
+      <a href="#" title="Instagram">📷</a>
+      <a href="#" title="YouTube">🎥</a>
+    </div>
+  </div>
+</aside>

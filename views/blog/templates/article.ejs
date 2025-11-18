@@ -1,0 +1,325 @@
+<%- include('../../layouts/main', { content: `
+<style>
+.article-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.article-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 3rem;
+}
+
+.article-main {
+  min-width: 0;
+}
+
+.article-header {
+  margin-bottom: 2rem;
+}
+
+.article-category {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #3498db;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.article-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ecf0f1;
+}
+
+.article-featured-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.article-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #34495e;
+}
+
+.article-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.article-content h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #34495e;
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+.article-content ul,
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.article-tag {
+  padding: 0.35rem 0.75rem;
+  background: #ecf0f1;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.article-tag:hover {
+  background: #3498db;
+  color: white;
+}
+
+.article-author {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.article-author h3 {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.article-share {
+  background: #ecf0f1;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.share-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.share-facebook {
+  background: #1877f2;
+}
+
+.share-twitter {
+  background: #1da1f2;
+}
+
+.share-linkedin {
+  background: #0077b5;
+}
+
+.related-posts {
+  margin-top: 3rem;
+}
+
+.related-posts h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.related-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+}
+
+.related-card-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.related-card-content {
+  padding: 1rem;
+}
+
+.related-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.related-card-meta {
+  font-size: 0.8rem;
+  color: #95a5a6;
+}
+
+@media (max-width: 968px) {
+  .article-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .article-title {
+    font-size: 1.8rem;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="article-container">
+  <div class="article-layout">
+    <div class="article-main">
+      <article>
+        <div class="article-header">
+          <span class="article-category"><%= post.category.replace(/-/g, ' ') %></span>
+          <h1 class="article-title"><%= post.title %></h1>
+
+          <div class="article-meta">
+            <span>✍️ <%= post.author?.name || 'Admin' %></span>
+            <span>📅 <%= new Date(post.publishedAt).toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+            <span>📖 <%= post.readingTime %> min citire</span>
+            <span>👁️ <%= post.views %> vizualizări</span>
+          </div>
+        </div>
+
+        <% if (post.featuredImage) { %>
+          <img src="<%= post.featuredImage %>" alt="<%= post.title %>" class="article-featured-image">
+        <% } %>
+
+        <div class="article-content">
+          <%- post.content %>
+        </div>
+
+        <% if (post.tags && post.tags.length > 0) { %>
+          <div class="article-tags">
+            <strong>Etichete:</strong>
+            <% post.tags.forEach(tag => { %>
+              <a href="/blog?tag=<%= tag %>" class="article-tag">#<%= tag %></a>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <% if (post.author) { %>
+          <div class="article-author">
+            <h3>Despre autor</h3>
+            <p><strong><%= post.author.name %></strong></p>
+            <p>Nutriționist specializat în nutriție clinică și sănătate.</p>
+          </div>
+        <% } %>
+
+        <div class="article-share">
+          <h3>Distribuie acest articol</h3>
+          <div class="share-buttons">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(seo.canonicalUrl) %>"
+               target="_blank"
+               class="share-button share-facebook">Facebook</a>
+            <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(seo.canonicalUrl) %>&text=<%= encodeURIComponent(post.title) %>"
+               target="_blank"
+               class="share-button share-twitter">Twitter</a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(seo.canonicalUrl) %>"
+               target="_blank"
+               class="share-button share-linkedin">LinkedIn</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Comments Section -->
+      <%- include('../partials/comments-section', { post, comments }) %>
+
+      <!-- Related Posts -->
+      <% if (relatedPosts && relatedPosts.length > 0) { %>
+        <div class="related-posts">
+          <h2>Articole asemănătoare</h2>
+          <div class="related-grid">
+            <% relatedPosts.forEach(related => { %>
+              <a href="/blog/<%= related.slug %>" class="related-card">
+                <% if (related.featuredImage) { %>
+                  <img src="<%= related.featuredImage %>" alt="<%= related.title %>" class="related-card-image">
+                <% } %>
+                <div class="related-card-content">
+                  <h3 class="related-card-title"><%= related.title %></h3>
+                  <div class="related-card-meta">
+                    📖 <%= related.readingTime %> min citire
+                  </div>
+                </div>
+              </a>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { categories, popularPosts, tags: [], filters: {} }) %>
+  </div>
+</div>
+
+<!-- Schema.org Article markup -->
+<%- include('../../partials/seo/schema-article', { post, seo }) %>
+` }) %>

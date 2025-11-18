@@ -70,6 +70,11 @@ router.post('/blog/edit/:id', authMiddleware.requirePermission('blog'), csrfMidd
 router.delete('/blog/:id', authMiddleware.requirePermission('blog'), csrfMiddleware.verifyToken, blogController.delete);
 router.post('/blog/:id/publish', authMiddleware.requirePermission('blog'), csrfMiddleware.verifyToken, blogController.togglePublish);
 
+// Blog Comments
+router.get('/blog/comments', authMiddleware.requirePermission('blog'), blogController.listComments);
+router.post('/blog/comments/:id/moderate', authMiddleware.requirePermission('blog'), csrfMiddleware.verifyToken, blogController.moderateComment);
+router.delete('/blog/comments/:id', authMiddleware.requirePermission('blog'), csrfMiddleware.verifyToken, blogController.deleteComment);
+
 // Bookings management
 router.get('/bookings', authMiddleware.requirePermission('bookings'), adminController.listBookings);
 router.get('/bookings/:id', authMiddleware.requirePermission('bookings'), adminController.viewBooking);

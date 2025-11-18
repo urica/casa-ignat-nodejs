@@ -7,6 +7,7 @@ const galleryController = require('../controllers/galleryController');
 const contactController = require('../controllers/contactController');
 const sitemapController = require('../controllers/sitemapController');
 const appointmentController = require('../controllers/appointmentController');
+const blogController = require('../controllers/blogController');
 
 // Home page
 router.get('/', homeController.index);
@@ -32,6 +33,12 @@ router.post('/rezervare', homeController.submitBooking);
 
 // Appointments / Programari
 router.get('/programari', appointmentController.showBookingForm);
+
+// Blog routes
+router.get('/blog', blogController.publicList);
+router.get('/blog/categorie/:slug', blogController.publicCategory);
+router.get('/blog/:slug', blogController.publicShow);
+router.post('/blog/comment', blogController.submitComment);
 
 // Health check endpoint for Docker
 router.get('/health', (req, res) => {
